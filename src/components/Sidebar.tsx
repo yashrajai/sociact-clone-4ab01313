@@ -1,15 +1,15 @@
 import { 
-  LayoutGrid, 
-  ChartLine, 
-  MessageCircle, 
-  Image, 
-  Video, 
-  Square, 
-  Search, 
-  Wand2, 
+  LayoutDashboard, 
+  TrendingUp, 
+  BotMessageSquare, 
+  ImagePlus, 
+  Clapperboard, 
+  Frame, 
+  ScanSearch, 
+  Sparkles, 
   Settings, 
-  CreditCard, 
-  HelpCircle,
+  Coins, 
+  LifeBuoy,
   LogIn,
   Zap
 } from "lucide-react";
@@ -63,25 +63,25 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
 
   const navItems = [
     { section: "Dashboard", items: [
-      { id: "overview", icon: <LayoutGrid className="w-5 h-5" />, label: "Overview" },
-      { id: "analytics", icon: <ChartLine className="w-5 h-5" />, label: "Analytics" },
+      { id: "overview", icon: <LayoutDashboard className="w-5 h-5" />, label: "Overview" },
+      { id: "analytics", icon: <TrendingUp className="w-5 h-5" />, label: "Analytics" },
     ]},
     { section: "AI Tools", items: [
-      { id: "comment-automation", icon: <MessageCircle className="w-5 h-5" />, label: "Comment Automation" },
-      { id: "image-generation", icon: <Image className="w-5 h-5" />, label: "Image Generation", badge: "NEW" },
-      { id: "video-generation", icon: <Video className="w-5 h-5" />, label: "Video Generation", badge: "NEW" },
-      { id: "thumbnail-generation", icon: <Square className="w-5 h-5" />, label: "Thumbnail Generation" },
-      { id: "seo-analyser", icon: <Search className="w-5 h-5" />, label: "Seo Analyser" },
+      { id: "comment-automation", icon: <BotMessageSquare className="w-5 h-5" />, label: "Comment Automation" },
+      { id: "image-generation", icon: <ImagePlus className="w-5 h-5" />, label: "Image Generation", badge: "NEW" },
+      { id: "video-generation", icon: <Clapperboard className="w-5 h-5" />, label: "Video Generation", badge: "NEW" },
+      { id: "thumbnail-generation", icon: <Frame className="w-5 h-5" />, label: "Thumbnail Generation" },
+      { id: "seo-analyser", icon: <ScanSearch className="w-5 h-5" />, label: "Seo Analyser" },
     ]},
     { section: "Ad Creation", items: [
-      { id: "ai-avatar", icon: <Wand2 className="w-5 h-5" />, label: "AI Avatar" },
+      { id: "ai-avatar", icon: <Sparkles className="w-5 h-5" />, label: "AI Avatar" },
     ]},
     { section: "Account", items: [
       { id: "settings", icon: <Settings className="w-5 h-5" />, label: "Settings" },
-      { id: "pricing", icon: <CreditCard className="w-5 h-5" />, label: "Pricing" },
+      { id: "pricing", icon: <Coins className="w-5 h-5" />, label: "Pricing" },
     ]},
     { section: "Support", items: [
-      { id: "help-support", icon: <HelpCircle className="w-5 h-5" />, label: "Help & Support" },
+      { id: "help-support", icon: <LifeBuoy className="w-5 h-5" />, label: "Help & Support" },
     ]},
   ];
 
