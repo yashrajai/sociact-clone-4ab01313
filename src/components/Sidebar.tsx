@@ -1,17 +1,17 @@
 import { 
-  LayoutDashboard, 
-  TrendingUp, 
+  Gauge, 
+  BarChart3, 
   BotMessageSquare, 
-  ImagePlus, 
-  Clapperboard, 
-  Frame, 
-  ScanSearch, 
-  Sparkles, 
-  Settings, 
-  Coins, 
-  LifeBuoy,
+  Wand2, 
+  Film, 
+  LayoutTemplate, 
+  FileSearch2, 
+  CircleUserRound, 
+  SlidersHorizontal, 
+  Crown, 
+  MessageCircleQuestion,
   LogIn,
-  Zap
+  Brain
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -63,25 +63,25 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
 
   const navItems = [
     { section: "Dashboard", items: [
-      { id: "overview", icon: <LayoutDashboard className="w-5 h-5" />, label: "Overview" },
-      { id: "analytics", icon: <TrendingUp className="w-5 h-5" />, label: "Analytics" },
+      { id: "overview", icon: <Gauge className="w-5 h-5" />, label: "Overview" },
+      { id: "analytics", icon: <BarChart3 className="w-5 h-5" />, label: "Analytics" },
     ]},
     { section: "AI Tools", items: [
       { id: "comment-automation", icon: <BotMessageSquare className="w-5 h-5" />, label: "Comment Automation" },
-      { id: "image-generation", icon: <ImagePlus className="w-5 h-5" />, label: "Image Generation", badge: "NEW" },
-      { id: "video-generation", icon: <Clapperboard className="w-5 h-5" />, label: "Video Generation", badge: "NEW" },
-      { id: "thumbnail-generation", icon: <Frame className="w-5 h-5" />, label: "Thumbnail Generation" },
-      { id: "seo-analyser", icon: <ScanSearch className="w-5 h-5" />, label: "Seo Analyser" },
+      { id: "image-generation", icon: <Wand2 className="w-5 h-5" />, label: "Image Generation", badge: "NEW" },
+      { id: "video-generation", icon: <Film className="w-5 h-5" />, label: "Video Generation", badge: "NEW" },
+      { id: "thumbnail-generation", icon: <LayoutTemplate className="w-5 h-5" />, label: "Thumbnail Generation" },
+      { id: "seo-analyser", icon: <FileSearch2 className="w-5 h-5" />, label: "Seo Analyser" },
     ]},
     { section: "Ad Creation", items: [
-      { id: "ai-avatar", icon: <Sparkles className="w-5 h-5" />, label: "AI Avatar" },
+      { id: "ai-avatar", icon: <CircleUserRound className="w-5 h-5" />, label: "AI Avatar" },
     ]},
     { section: "Account", items: [
-      { id: "settings", icon: <Settings className="w-5 h-5" />, label: "Settings" },
-      { id: "pricing", icon: <Coins className="w-5 h-5" />, label: "Pricing" },
+      { id: "settings", icon: <SlidersHorizontal className="w-5 h-5" />, label: "Settings" },
+      { id: "pricing", icon: <Crown className="w-5 h-5" />, label: "Pricing" },
     ]},
     { section: "Support", items: [
-      { id: "help-support", icon: <LifeBuoy className="w-5 h-5" />, label: "Help & Support" },
+      { id: "help-support", icon: <MessageCircleQuestion className="w-5 h-5" />, label: "Help & Support" },
     ]},
   ];
 
@@ -93,7 +93,7 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
         onClick={() => onItemClick("overview")}
       >
         <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-          <Zap className="w-5 h-5 text-primary" />
+          <Brain className="w-5 h-5 text-primary" />
         </div>
         <span className="text-lg font-semibold text-primary">Sociact AI</span>
       </div>
