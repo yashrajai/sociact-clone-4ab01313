@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { Dashboard } from "@/components/Dashboard";
+import { AnalyticsDashboard } from "@/components/analytics/AnalyticsDashboard";
 import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
@@ -19,10 +20,21 @@ const Index = () => {
     });
   };
 
+  const renderContent = () => {
+    switch (activeItem) {
+      case "analytics":
+        return <AnalyticsDashboard />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar activeItem={activeItem} onItemClick={handleItemClick} />
-      <Dashboard />
+      <main className="flex-1 overflow-y-auto">
+        {renderContent()}
+      </main>
     </div>
   );
 };
