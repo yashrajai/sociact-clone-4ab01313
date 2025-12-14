@@ -89,13 +89,13 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
     <div className="w-60 min-h-screen bg-sidebar flex flex-col border-r border-sidebar-border">
       {/* Logo */}
       <div 
-        className="flex items-center gap-2 px-4 py-5 cursor-pointer hover:opacity-80 transition-opacity"
+        className="flex items-center gap-2.5 px-4 py-5 cursor-pointer hover:opacity-80 transition-opacity"
         onClick={() => onItemClick("overview")}
       >
-        <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
+        <div className="w-9 h-9 rounded-xl bg-primary/15 flex items-center justify-center">
           <Brain className="w-5 h-5 text-primary" />
         </div>
-        <span className="text-lg font-semibold text-primary">Sociact AI</span>
+        <span className="text-lg font-bold text-primary font-display tracking-tight">Sociact AI</span>
       </div>
 
       {/* Navigation */}

@@ -92,7 +92,7 @@ export const CommunityCreations = () => {
   return (
     <div className="w-full max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-foreground">Community Creations</h2>
+        <h2 className="text-2xl font-bold text-foreground font-display">Community Creations</h2>
         <span className="text-sm text-muted-foreground">{galleryImages.length} creations</span>
       </div>
       
