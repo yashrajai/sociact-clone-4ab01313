@@ -25,10 +25,6 @@ export const Dashboard = () => {
         <QuickStats />
       </div>
 
-      {/* Suggested Prompts Section */}
-      <div className="px-6 py-8 bg-secondary/20">
-        <SuggestedPrompts />
-      </div>
 
       {/* Community Creations Section */}
       <div className="px-6 py-10">
