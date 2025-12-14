@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import { Flame, Image, Square, Video, Camera, Star, Heart, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -11,8 +11,9 @@ interface TabProps {
   onClick: () => void;
 }
 
-const Tab = ({ icon, label, active, soon, onClick }: TabProps) => (
+const Tab = forwardRef<HTMLButtonElement, TabProps>(({ icon, label, active, soon, onClick }, ref) => (
   <button
+    ref={ref}
     onClick={onClick}
     className={cn(
       "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
@@ -25,7 +26,9 @@ const Tab = ({ icon, label, active, soon, onClick }: TabProps) => (
     {label}
     {soon && <span className="text-xs text-muted-foreground">(Soon)</span>}
   </button>
-);
+));
+
+Tab.displayName = "Tab";
 
 const galleryImages = [
   { id: 1, src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop", title: "Urban Street", category: "Photography", likes: 234 },
