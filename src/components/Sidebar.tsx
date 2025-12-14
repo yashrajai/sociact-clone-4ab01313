@@ -30,11 +30,14 @@ const NavItem = ({ icon, label, active, badge, onClick }: NavItemProps) => (
     className={cn(
       "group flex items-center gap-3 px-4 py-2.5 cursor-pointer transition-all duration-200 rounded-r-md",
       active 
-        ? "bg-secondary border-l-2 border-primary text-foreground" 
+        ? "bg-secondary border-l-2 border-primary text-foreground shadow-[0_0_12px_rgba(34,197,94,0.25)]" 
         : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
     )}
   >
-    <span className="w-5 h-5 transition-transform duration-200 group-hover:scale-110 group-hover:rotate-3">{icon}</span>
+    <span className={cn(
+      "w-5 h-5 transition-transform duration-200 group-hover:scale-110 group-hover:rotate-3",
+      active && "text-primary drop-shadow-[0_0_6px_rgba(34,197,94,0.5)]"
+    )}>{icon}</span>
     <span className="text-sm font-medium">{label}</span>
     {badge && (
       <span className="new-badge ml-auto">{badge}</span>
