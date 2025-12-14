@@ -1,8 +1,6 @@
 import { AuroraBackground } from "./AuroraBackground";
 import { RotatingText } from "./RotatingText";
 import { TaskInput } from "./TaskInput";
-import { QuickStats } from "./QuickStats";
-import { SuggestedPrompts } from "./SuggestedPrompts";
 import { CommunityCreations } from "./CommunityCreations";
 
 export const Dashboard = () => {
