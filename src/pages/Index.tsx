@@ -3,6 +3,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { Dashboard } from "@/components/Dashboard";
 import { AnalyticsDashboard } from "@/components/analytics/AnalyticsDashboard";
 import { CommentAutomation } from "@/components/automation/CommentAutomation";
+import { ImageGeneration } from "@/components/image-generation/ImageGeneration";
 import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
@@ -27,6 +28,8 @@ const Index = () => {
         return <AnalyticsDashboard />;
       case "comment-automation":
         return <CommentAutomation />;
+      case "image-generation":
+        return <ImageGeneration />;
       default:
         return <Dashboard />;
     }
