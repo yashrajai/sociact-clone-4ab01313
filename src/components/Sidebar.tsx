@@ -35,7 +35,7 @@ const NavItem = ({ icon, label, active, badge, onClick }: NavItemProps) => (
     )}
   >
     <span className={cn(
-      "w-5 h-5 transition-transform duration-200 group-hover:scale-110 group-hover:rotate-3",
+      "w-5 h-5",
       active && "text-primary drop-shadow-[0_0_6px_rgba(34,197,94,0.5)]"
     )}>{icon}</span>
     <span className="text-sm font-medium">{label}</span>
