@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { Dashboard } from "@/components/Dashboard";
 import { AnalyticsDashboard } from "@/components/analytics/AnalyticsDashboard";
+import { CommentAutomation } from "@/components/automation/CommentAutomation";
 import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
@@ -24,6 +25,8 @@ const Index = () => {
     switch (activeItem) {
       case "analytics":
         return <AnalyticsDashboard />;
+      case "comment-automation":
+        return <CommentAutomation />;
       default:
         return <Dashboard />;
     }
