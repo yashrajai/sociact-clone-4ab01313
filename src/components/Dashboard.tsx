@@ -20,10 +20,6 @@ export const Dashboard = () => {
         </div>
       </div>
 
-      {/* Quick Stats Section */}
-      <div className="px-6 py-6 border-b border-border/30">
-        <QuickStats />
-      </div>
 
 
       {/* Community Creations Section */}
