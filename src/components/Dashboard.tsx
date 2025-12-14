@@ -12,7 +12,7 @@ export const Dashboard = () => {
       <div className="relative">
         <AuroraBackground />
         
-        <div className="relative z-10 pt-24 pb-12 px-6">
+        <div className="relative z-10 pt-32 pb-12 px-6">
           <div className="max-w-4xl mx-auto space-y-8">
             <RotatingText />
             <TaskInput />
