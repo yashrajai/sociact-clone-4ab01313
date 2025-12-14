@@ -19,23 +19,23 @@ export const RotatingText = () => {
   }, []);
 
   return (
-    <div className="text-center space-y-4">
-      <div className="flex items-center justify-center gap-3 flex-wrap">
-        <h1 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight">
+    <div className="text-center space-y-5">
+      <div className="flex items-center justify-center gap-4 flex-wrap">
+        <h1 className="text-4xl md:text-6xl font-bold text-foreground font-display">
           Ask Sociact for
         </h1>
-        <div className="rotating-text-box min-w-[160px] overflow-hidden">
+        <div className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl border border-primary/40 bg-primary/5 backdrop-blur-sm shadow-lg shadow-primary/5">
           <span 
             className={cn(
-              "text-xl md:text-3xl font-semibold text-primary inline-block transition-all duration-300",
-              isAnimating ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
+              "text-2xl md:text-4xl font-bold text-primary font-display inline-block transition-all duration-300",
+              isAnimating ? "opacity-0 translate-y-3" : "opacity-100 translate-y-0"
             )}
           >
             {words[currentIndex]}
           </span>
         </div>
       </div>
-      <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+      <p className="text-muted-foreground text-base md:text-lg max-w-md mx-auto leading-relaxed">
         Create stunning AI-powered content in seconds. Just describe what you need.
       </p>
     </div>
