@@ -12,9 +12,9 @@ import {
   Zap, 
   FileText, 
   GitBranch, 
-  BarChart3,
-  Sparkles
+  BarChart3
 } from "lucide-react";
+import instagramLogo from "@/assets/instagram-logo.png";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: Zap },
@@ -33,9 +33,7 @@ export const CommentAutomation = () => {
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-purple-500/25">
-            <Sparkles className="w-6 h-6 text-white" />
-          </div>
+          <img src={instagramLogo} alt="Instagram" className="w-12 h-12 rounded-2xl shadow-lg shadow-purple-500/25" />
           <div>
             <h1 className="text-2xl font-bold font-display text-foreground">Comment & DM Automation</h1>
             <p className="text-muted-foreground text-sm">
@@ -45,7 +43,7 @@ export const CommentAutomation = () => {
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <img src={instagramLogo} alt="Instagram" className="w-4 h-4 rounded-sm" />
             <span className="text-xs font-medium text-emerald-400">Connected to Instagram</span>
           </div>
           <button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/25">

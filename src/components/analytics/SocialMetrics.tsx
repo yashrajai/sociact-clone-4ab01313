@@ -1,6 +1,7 @@
-import { Instagram, Youtube, Twitter, Facebook, TrendingUp, TrendingDown, MessageCircle, Heart, Eye, Users, Send } from "lucide-react";
+import { Youtube, Twitter, Facebook, TrendingUp, TrendingDown, MessageCircle, Heart, Eye, Users, Send } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
 import { cn } from "@/lib/utils";
+import instagramLogo from "@/assets/instagram-logo.png";
 
 const engagementData = [
   { name: "Mon", views: 4200, likes: 2400, comments: 800, shares: 400 },
@@ -15,7 +16,8 @@ const engagementData = [
 const platforms = [
   {
     name: "Instagram",
-    icon: Instagram,
+    icon: null,
+    customIcon: instagramLogo,
     followers: "1.2M",
     growth: "+5.2%",
     trend: "up",
@@ -71,8 +73,12 @@ export const SocialMetrics = ({ compact }: SocialMetricsProps) => {
           {platforms.slice(0, 3).map((platform) => (
             <div key={platform.name} className="flex items-center justify-between p-3 bg-secondary/50 rounded-xl">
               <div className="flex items-center gap-3">
-                <div className={cn("w-9 h-9 rounded-lg bg-gradient-to-br flex items-center justify-center", platform.color)}>
-                  <platform.icon className="w-4 h-4 text-white" />
+                <div className={cn("w-9 h-9 rounded-lg bg-gradient-to-br flex items-center justify-center overflow-hidden", platform.customIcon ? "" : platform.color)}>
+                  {platform.customIcon ? (
+                    <img src={platform.customIcon} alt={platform.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <platform.icon className="w-4 h-4 text-white" />
+                  )}
                 </div>
                 <div>
                   <p className="text-sm font-medium text-foreground">{platform.name}</p>
@@ -108,8 +114,12 @@ export const SocialMetrics = ({ compact }: SocialMetricsProps) => {
             
             <div className="relative">
               <div className="flex items-center justify-between mb-4">
-                <div className={cn("w-11 h-11 rounded-xl bg-gradient-to-br flex items-center justify-center", platform.color)}>
-                  <platform.icon className="w-5 h-5 text-white" />
+                <div className={cn("w-11 h-11 rounded-xl bg-gradient-to-br flex items-center justify-center overflow-hidden", platform.customIcon ? "" : platform.color)}>
+                  {platform.customIcon ? (
+                    <img src={platform.customIcon} alt={platform.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <platform.icon className="w-5 h-5 text-white" />
+                  )}
                 </div>
                 <span className={cn(
                   "flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full",
