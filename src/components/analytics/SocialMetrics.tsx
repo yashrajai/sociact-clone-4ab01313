@@ -1,5 +1,5 @@
-import { Youtube, Twitter, Facebook, TrendingUp, TrendingDown, MessageCircle, Heart, Eye, Users, Send, Bot, User } from "lucide-react";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { Youtube, Twitter, Facebook, TrendingUp, TrendingDown, MessageCircle, Heart, Eye, Users, Send } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
 import { cn } from "@/lib/utils";
 import instagramLogo from "@/assets/instagram-logo.png";
 
@@ -53,25 +53,18 @@ const platforms = [
   },
 ];
 
-const aiVsManual = {
-  ai: { posts: 42, engagement: "11.2%", views: "94,000", successRate: "96%", viralPosts: "18 (43%)" },
-  manual: { posts: 12, engagement: "7.8%", views: "67,000", successRate: "75%", viralPosts: "3 (25%)" },
-  improvement: "44%",
-};
+const dmStats = [
+  { label: "Total DMs", value: "4,256", change: "+12%" },
+  { label: "Response Rate", value: "94%", change: "+3%" },
+  { label: "Avg Response Time", value: "2.4h", change: "-18%" },
+  { label: "Unread", value: "23", change: "-45%" },
+];
 
-const dmStats = {
-  total: "1,847",
-  autoReplied: "1,456 (79%)",
-  avgResponseTime: "<2 minutes",
-  manualReplies: "391 (21%)",
-  sentiment: { positive: 73, neutral: 22, negative: 5 },
-};
-
-interface EnhancedSocialMetricsProps {
+interface SocialMetricsProps {
   compact?: boolean;
 }
 
-export const EnhancedSocialMetrics = ({ compact }: EnhancedSocialMetricsProps) => {
+export const SocialMetrics = ({ compact }: SocialMetricsProps) => {
   if (compact) {
     return (
       <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-5">
@@ -83,9 +76,9 @@ export const EnhancedSocialMetrics = ({ compact }: EnhancedSocialMetricsProps) =
                 <div className={cn("w-9 h-9 rounded-lg bg-gradient-to-br flex items-center justify-center overflow-hidden", platform.customIcon ? "" : platform.color)}>
                   {platform.customIcon ? (
                     <img src={platform.customIcon} alt={platform.name} className="w-full h-full object-cover" />
-                  ) : platform.icon ? (
+                  ) : (
                     <platform.icon className="w-4 h-4 text-white" />
-                  ) : null}
+                  )}
                 </div>
                 <div>
                   <p className="text-sm font-medium text-foreground">{platform.name}</p>
@@ -107,73 +100,6 @@ export const EnhancedSocialMetrics = ({ compact }: EnhancedSocialMetricsProps) =
 
   return (
     <div className="space-y-6">
-      {/* AI vs Manual Performance */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-violet-500/10 via-purple-500/10 to-cyan-500/10 border border-violet-500/20 rounded-2xl p-6">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        
-        <div className="relative">
-          <h3 className="text-lg font-bold font-display text-foreground mb-4">AI vs Manual Performance</h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-background/50 backdrop-blur-sm rounded-xl p-4 border border-violet-500/20">
-              <div className="flex items-center gap-2 mb-4">
-                <Bot className="w-5 h-5 text-violet-400" />
-                <span className="text-sm font-semibold text-foreground">AI-GENERATED CONTENT ({aiVsManual.ai.posts} posts)</span>
-              </div>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Avg Engagement:</span>
-                  <span className="text-foreground font-medium">{aiVsManual.ai.engagement}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Avg Views:</span>
-                  <span className="text-foreground font-medium">{aiVsManual.ai.views}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Success Rate:</span>
-                  <span className="text-foreground font-medium">{aiVsManual.ai.successRate}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Viral Posts:</span>
-                  <span className="text-foreground font-medium">{aiVsManual.ai.viralPosts}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-background/50 backdrop-blur-sm rounded-xl p-4 border border-border/50">
-              <div className="flex items-center gap-2 mb-4">
-                <User className="w-5 h-5 text-muted-foreground" />
-                <span className="text-sm font-semibold text-foreground">MANUAL CONTENT ({aiVsManual.manual.posts} posts)</span>
-              </div>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Avg Engagement:</span>
-                  <span className="text-foreground font-medium">{aiVsManual.manual.engagement}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Avg Views:</span>
-                  <span className="text-foreground font-medium">{aiVsManual.manual.views}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Success Rate:</span>
-                  <span className="text-foreground font-medium">{aiVsManual.manual.successRate}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Viral Posts:</span>
-                  <span className="text-foreground font-medium">{aiVsManual.manual.viralPosts}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-4 p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20 text-center">
-            <span className="text-sm font-bold text-emerald-400">
-              📊 AI CONTENT PERFORMS {aiVsManual.improvement}% BETTER ON AVERAGE
-            </span>
-          </div>
-        </div>
-      </div>
-
       {/* Platform Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {platforms.map((platform) => (
@@ -191,9 +117,9 @@ export const EnhancedSocialMetrics = ({ compact }: EnhancedSocialMetricsProps) =
                 <div className={cn("w-11 h-11 rounded-xl bg-gradient-to-br flex items-center justify-center overflow-hidden", platform.customIcon ? "" : platform.color)}>
                   {platform.customIcon ? (
                     <img src={platform.customIcon} alt={platform.name} className="w-full h-full object-cover" />
-                  ) : platform.icon ? (
+                  ) : (
                     <platform.icon className="w-5 h-5 text-white" />
-                  ) : null}
+                  )}
                 </div>
                 <span className={cn(
                   "flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full",
@@ -260,15 +186,15 @@ export const EnhancedSocialMetrics = ({ compact }: EnhancedSocialMetricsProps) =
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={engagementData}>
               <defs>
-                <linearGradient id="colorViewsEnhanced" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/>
                   <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
                 </linearGradient>
-                <linearGradient id="colorLikesEnhanced" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id="colorLikes" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#ec4899" stopOpacity={0.3}/>
                   <stop offset="95%" stopColor="#ec4899" stopOpacity={0}/>
                 </linearGradient>
-                <linearGradient id="colorCommentsEnhanced" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id="colorComments" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3}/>
                   <stop offset="95%" stopColor="#f59e0b" stopOpacity={0}/>
                 </linearGradient>
@@ -284,9 +210,9 @@ export const EnhancedSocialMetrics = ({ compact }: EnhancedSocialMetricsProps) =
                   fontSize: '12px'
                 }} 
               />
-              <Area type="monotone" dataKey="views" stroke="#22c55e" fillOpacity={1} fill="url(#colorViewsEnhanced)" strokeWidth={2} />
-              <Area type="monotone" dataKey="likes" stroke="#ec4899" fillOpacity={1} fill="url(#colorLikesEnhanced)" strokeWidth={2} />
-              <Area type="monotone" dataKey="comments" stroke="#f59e0b" fillOpacity={1} fill="url(#colorCommentsEnhanced)" strokeWidth={2} />
+              <Area type="monotone" dataKey="views" stroke="#22c55e" fillOpacity={1} fill="url(#colorViews)" strokeWidth={2} />
+              <Area type="monotone" dataKey="likes" stroke="#ec4899" fillOpacity={1} fill="url(#colorLikes)" strokeWidth={2} />
+              <Area type="monotone" dataKey="comments" stroke="#f59e0b" fillOpacity={1} fill="url(#colorComments)" strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -295,42 +221,19 @@ export const EnhancedSocialMetrics = ({ compact }: EnhancedSocialMetricsProps) =
       {/* DM Stats */}
       <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
         <h3 className="text-lg font-semibold font-display text-foreground mb-4">Direct Messages</h3>
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          <div className="bg-secondary/50 rounded-xl p-4">
-            <p className="text-xs text-muted-foreground mb-1">Total DMs Received</p>
-            <p className="text-xl font-bold font-display text-foreground">{dmStats.total}</p>
-          </div>
-          <div className="bg-secondary/50 rounded-xl p-4">
-            <p className="text-xs text-muted-foreground mb-1">Auto-Replied</p>
-            <p className="text-xl font-bold font-display text-foreground">{dmStats.autoReplied}</p>
-          </div>
-          <div className="bg-secondary/50 rounded-xl p-4">
-            <p className="text-xs text-muted-foreground mb-1">Avg Response Time</p>
-            <p className="text-xl font-bold font-display text-foreground">{dmStats.avgResponseTime}</p>
-          </div>
-          <div className="bg-secondary/50 rounded-xl p-4">
-            <p className="text-xs text-muted-foreground mb-1">Manual Replies</p>
-            <p className="text-xl font-bold font-display text-foreground">{dmStats.manualReplies}</p>
-          </div>
-        </div>
-
-        <div className="bg-secondary/50 rounded-xl p-4">
-          <p className="text-sm font-medium text-foreground mb-3">DM Sentiment</p>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">😊</span>
-              <span className="text-sm text-foreground">{dmStats.sentiment.positive}% Positive</span>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {dmStats.map((stat) => (
+            <div key={stat.label} className="bg-secondary/50 rounded-xl p-4">
+              <p className="text-xs text-muted-foreground mb-1">{stat.label}</p>
+              <p className="text-xl font-bold font-display text-foreground">{stat.value}</p>
+              <span className={cn(
+                "text-xs font-medium",
+                stat.change.startsWith("+") ? "text-emerald-400" : stat.change.startsWith("-") && stat.label !== "Avg Response Time" && stat.label !== "Unread" ? "text-rose-400" : "text-emerald-400"
+              )}>
+                {stat.change}
+              </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg">😐</span>
-              <span className="text-sm text-foreground">{dmStats.sentiment.neutral}% Neutral</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg">😞</span>
-              <span className="text-sm text-foreground">{dmStats.sentiment.negative}% Negative</span>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
