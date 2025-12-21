@@ -1,8 +1,5 @@
 import { TrendingUp, TrendingDown, Users, Eye, Heart, MessageCircle, Share2, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { AIImpactBanner } from "./AIImpactBanner";
-import { CriticalAlerts } from "./CriticalAlerts";
-import { CompetitivePosition } from "./CompetitivePosition";
 import { SocialMetrics } from "./SocialMetrics";
 import { CompetitorInsights } from "./CompetitorInsights";
 import { NicheTrends } from "./NicheTrends";
@@ -61,15 +58,6 @@ const stats = [
 export const EnhancedOverviewStats = () => {
   return (
     <div className="space-y-6">
-      {/* AI Impact Banner */}
-      <AIImpactBanner />
-
-      {/* Critical Alerts */}
-      <CriticalAlerts />
-
-      {/* Competitive Position */}
-      <CompetitivePosition />
-
       {/* Metrics Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {stats.map((stat) => (
