@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { 
-  Play, Eye, Heart, MessageCircle, Share2, Bookmark, TrendingUp, TrendingDown, 
-  Clock, Users, Filter, Trophy, CheckCircle2, Sparkles, ArrowRight
+  Eye, Heart, MessageCircle, Share2, Bookmark, TrendingUp, 
+  Filter, Trophy, CheckCircle2, Sparkles, Bot, User, ArrowRight
 } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { cn } from "@/lib/utils";
 
 const topPerformer = {
@@ -25,102 +23,128 @@ const topPerformer = {
   aiAction: "Creating 3 similar videos this week",
 };
 
-const reels = [
+const contentGrid = [
   {
     id: 1,
     thumbnail: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=300&h=400&fit=crop",
-    title: "AI-powered content creation tips",
-    duration: "0:45",
-    views: "2.4M",
-    likes: "189K",
-    comments: "12.4K",
-    shares: "45.2K",
-    saves: "78.3K",
-    engagement: "12.8%",
-    trend: "up",
-    postedAt: "2 days ago",
-    watchTime: "32s avg",
-    completion: 71,
+    title: "Product Demo",
+    views: "94K",
+    engagement: "12.6%",
+    isAI: true,
+    status: "viral",
+    statusLabel: "Viral",
   },
   {
     id: 2,
     thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=400&fit=crop",
-    title: "Behind the scenes of viral video",
-    duration: "1:12",
-    views: "1.8M",
-    likes: "145K",
-    comments: "8.9K",
-    shares: "32.1K",
-    saves: "56.7K",
-    engagement: "10.2%",
-    trend: "up",
-    postedAt: "5 days ago",
-    watchTime: "48s avg",
-    completion: 67,
+    title: "Tutorial Video",
+    views: "67K",
+    engagement: "9.2%",
+    isAI: false,
+    status: "average",
+    statusLabel: "Average",
   },
   {
     id: 3,
     thumbnail: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=400&fit=crop",
-    title: "Tech tutorial walkthrough",
-    duration: "2:30",
-    views: "892K",
-    likes: "67K",
-    comments: "4.2K",
-    shares: "12.8K",
-    saves: "34.5K",
-    engagement: "6.5%",
-    trend: "down",
-    postedAt: "1 week ago",
-    watchTime: "1m 12s avg",
-    completion: 48,
+    title: "Behind Scenes",
+    views: "45K",
+    engagement: "6.8%",
+    isAI: false,
+    status: "below",
+    statusLabel: "Below avg",
   },
   {
     id: 4,
     thumbnail: "https://images.unsplash.com/photo-1535303311164-664fc9ec6532?w=300&h=400&fit=crop",
-    title: "Quick tips for engagement",
-    duration: "0:28",
-    views: "3.1M",
-    likes: "256K",
-    comments: "18.7K",
-    shares: "67.4K",
-    saves: "92.1K",
-    engagement: "15.4%",
-    trend: "up",
-    postedAt: "3 days ago",
-    watchTime: "24s avg",
-    completion: 86,
+    title: "Demo Reel",
+    views: "89K",
+    engagement: "11.4%",
+    isAI: true,
+    status: "good",
+    statusLabel: "Good",
+  },
+  {
+    id: 5,
+    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=400&fit=crop",
+    title: "Carousel Post",
+    views: "52K",
+    engagement: "14.2%",
+    isAI: true,
+    status: "saves",
+    statusLabel: "High saves",
+  },
+  {
+    id: 6,
+    thumbnail: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=300&h=400&fit=crop",
+    title: "Product Launch",
+    views: "78K",
+    engagement: "8.1%",
+    isAI: false,
+    status: "average",
+    statusLabel: "Average",
+  },
+  {
+    id: 7,
+    thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=300&h=400&fit=crop",
+    title: "Tips & Tricks",
+    views: "61K",
+    engagement: "10.7%",
+    isAI: true,
+    status: "good",
+    statusLabel: "Good",
+  },
+  {
+    id: 8,
+    thumbnail: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=300&h=400&fit=crop",
+    title: "Story Series",
+    views: "34K",
+    engagement: "7.3%",
+    isAI: false,
+    status: "average",
+    statusLabel: "Average",
   },
 ];
 
-const audienceData = [
-  { name: "18-24", value: 35, color: "#22c55e" },
-  { name: "25-34", value: 40, color: "#8b5cf6" },
-  { name: "35-44", value: 15, color: "#ec4899" },
-  { name: "45+", value: 10, color: "#f59e0b" },
+const contentTypeBreakdown = [
+  { type: "Video Posts", percentage: 67, posts: 28, avgViews: "89K", engagement: "10.2%", isTop: false },
+  { type: "Carousel Posts", percentage: 18, posts: 8, avgViews: "52K", engagement: "13.8%", isTop: true },
+  { type: "Image Posts", percentage: 15, posts: 6, avgViews: "34K", engagement: "6.4%", isTop: false },
 ];
 
-const peakHoursData = [
-  { hour: "6am", views: 1200 },
-  { hour: "9am", views: 3400 },
-  { hour: "12pm", views: 5600 },
-  { hour: "3pm", views: 4200 },
-  { hour: "6pm", views: 7800 },
-  { hour: "9pm", views: 9200 },
-  { hour: "12am", views: 4500 },
-];
+const getStatusStyles = (status: string) => {
+  switch (status) {
+    case "viral":
+      return "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
+    case "good":
+      return "bg-emerald-500/15 text-emerald-400 border-emerald-500/20";
+    case "saves":
+      return "bg-emerald-500/15 text-emerald-400 border-emerald-500/20";
+    case "average":
+      return "bg-amber-500/20 text-amber-400 border-amber-500/30";
+    case "below":
+      return "bg-rose-500/20 text-rose-400 border-rose-500/30";
+    default:
+      return "bg-muted text-muted-foreground border-border";
+  }
+};
 
-const geographyData = [
-  { country: "United States", percentage: 42, flag: "🇺🇸" },
-  { country: "United Kingdom", percentage: 18, flag: "🇬🇧" },
-  { country: "Canada", percentage: 12, flag: "🇨🇦" },
-  { country: "Australia", percentage: 8, flag: "🇦🇺" },
-  { country: "Germany", percentage: 6, flag: "🇩🇪" },
-  { country: "Others", percentage: 14, flag: "🌍" },
-];
+const getStatusIcon = (status: string) => {
+  switch (status) {
+    case "viral":
+    case "good":
+    case "saves":
+      return "🟢";
+    case "average":
+      return "🟡";
+    case "below":
+      return "🔴";
+    default:
+      return "⚪";
+  }
+};
 
 export const EnhancedReelPerformance = () => {
-  const [selectedReel, setSelectedReel] = useState(reels[0]);
-
   return (
     <div className="space-y-6">
       {/* Top Performer This Week */}
@@ -134,53 +158,74 @@ export const EnhancedReelPerformance = () => {
             </div>
             <div>
               <h3 className="text-lg font-bold font-display text-foreground">TOP PERFORMER THIS WEEK</h3>
-              <p className="text-sm text-muted-foreground">"{topPerformer.title}" • Posted {topPerformer.postedAt}</p>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4 mb-4 text-sm">
-            <span className="flex items-center gap-1">
-              <Eye className="w-4 h-4 text-muted-foreground" />
-              <span className="font-bold text-foreground">{topPerformer.views}</span> views
-            </span>
-            <span className="flex items-center gap-1">
-              <Heart className="w-4 h-4 text-muted-foreground" />
-              <span className="font-bold text-foreground">{topPerformer.likes}</span> likes
-            </span>
-            <span className="flex items-center gap-1">
-              <MessageCircle className="w-4 h-4 text-muted-foreground" />
-              <span className="font-bold text-foreground">{topPerformer.comments}</span> comments
-            </span>
-            <span className="flex items-center gap-1">
-              <Share2 className="w-4 h-4 text-muted-foreground" />
-              <span className="font-bold text-foreground">{topPerformer.shares}</span> shares
-            </span>
-            <span className="flex items-center gap-1">
-              <Bookmark className="w-4 h-4 text-muted-foreground" />
-              <span className="font-bold text-foreground">{topPerformer.saves}</span> saves
-            </span>
-            <span className="text-emerald-400 font-bold">📊 Engagement: {topPerformer.engagement} (🟢 Above avg)</span>
+          <div className="mb-4">
+            <h4 className="text-xl font-bold text-foreground mb-1">🏆 "{topPerformer.title}"</h4>
+            <p className="text-sm text-muted-foreground">Posted {topPerformer.postedAt}</p>
+          </div>
+
+          <div className="border-t border-amber-500/20 pt-4 mb-4">
+            <div className="flex flex-wrap gap-6 text-sm">
+              <span className="flex items-center gap-2">
+                <Eye className="w-4 h-4 text-muted-foreground" />
+                <span className="font-bold text-foreground">{topPerformer.views}</span>
+                <span className="text-muted-foreground">views</span>
+              </span>
+              <span className="flex items-center gap-2">
+                <Heart className="w-4 h-4 text-rose-400" />
+                <span className="font-bold text-foreground">{topPerformer.likes}</span>
+                <span className="text-muted-foreground">likes</span>
+              </span>
+              <span className="flex items-center gap-2">
+                <MessageCircle className="w-4 h-4 text-blue-400" />
+                <span className="font-bold text-foreground">{topPerformer.comments}</span>
+                <span className="text-muted-foreground">comments</span>
+              </span>
+              <span className="flex items-center gap-2">
+                <Share2 className="w-4 h-4 text-emerald-400" />
+                <span className="font-bold text-foreground">{topPerformer.shares}</span>
+                <span className="text-muted-foreground">shares</span>
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-6 mt-3 text-sm">
+              <span className="flex items-center gap-2 text-emerald-400 font-semibold">
+                📊 Engagement: {topPerformer.engagement} (🟢 Above avg)
+              </span>
+              <span className="flex items-center gap-2">
+                <Bookmark className="w-4 h-4 text-purple-400" />
+                <span className="font-bold text-foreground">{topPerformer.saves}</span>
+                <span className="text-muted-foreground">saves</span>
+              </span>
+            </div>
           </div>
 
           <div className="bg-background/50 rounded-xl p-4 mb-4">
-            <p className="text-sm font-semibold text-foreground mb-3">✅ WHY IT WORKED:</p>
-            <ul className="space-y-1">
+            <p className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              WHY IT WORKED:
+            </p>
+            <ul className="space-y-2">
               {topPerformer.whyItWorked.map((reason, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                  <span className="text-emerald-400 mt-0.5">•</span>
                   {reason}
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4 text-sm">
-              <span className="flex items-center gap-1 text-amber-400">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex flex-col gap-2 text-sm">
+              <span className="flex items-center gap-2 text-amber-400">
                 <Sparkles className="w-4 h-4" />
                 🔥 Viral Indicator: {topPerformer.viralIndicator}
               </span>
-              <span className="text-primary">🤖 AI Action: {topPerformer.aiAction}</span>
+              <span className="flex items-center gap-2 text-primary">
+                <Bot className="w-4 h-4" />
+                🤖 AI Action: {topPerformer.aiAction}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <button className="px-4 py-2 bg-secondary text-foreground rounded-lg text-sm font-medium hover:bg-secondary/80 transition-colors">
@@ -194,221 +239,134 @@ export const EnhancedReelPerformance = () => {
         </div>
       </div>
 
-      {/* Content Grid */}
+      {/* Recent Content Grid */}
       <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="text-lg font-semibold font-display text-foreground">Recent Content Grid</h3>
+            <h3 className="text-lg font-semibold font-display text-foreground">RECENT CONTENT GRID</h3>
             <p className="text-sm text-muted-foreground">Detailed analytics for each piece of content</p>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-secondary rounded-lg text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 bg-secondary rounded-lg text-sm text-muted-foreground hover:text-foreground transition-colors border border-border/50">
             <Filter className="w-4 h-4" />
-            Filter
+            Filter ⚙️
           </button>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {reels.map((reel) => (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          {contentGrid.map((content) => (
             <div
-              key={reel.id}
-              onClick={() => setSelectedReel(reel)}
-              className={cn(
-                "relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 group",
-                selectedReel.id === reel.id 
-                  ? "ring-2 ring-primary shadow-lg shadow-primary/25" 
-                  : "hover:ring-2 hover:ring-border"
-              )}
+              key={content.id}
+              className="bg-secondary/50 rounded-xl overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-300 group cursor-pointer"
             >
-              <img
-                src={reel.thumbnail}
-                alt={reel.title}
-                className="w-full aspect-[3/4] object-cover"
-              />
-              
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              
-              {/* Duration badge */}
-              <div className="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur-sm rounded-md text-xs text-white font-medium">
-                {reel.duration}
-              </div>
-              
-              {/* Play button */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                  <Play className="w-5 h-5 text-white fill-white" />
+              {/* Thumbnail */}
+              <div className="relative h-32 overflow-hidden">
+                <img
+                  src={content.thumbnail}
+                  alt={content.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-2 left-2 right-2">
+                  <p className="text-white text-sm font-medium truncate">{content.title}</p>
                 </div>
               </div>
               
               {/* Stats */}
-              <div className="absolute bottom-0 left-0 right-0 p-3">
-                <p className="text-white text-sm font-medium truncate mb-2">{reel.title}</p>
-                <div className="flex items-center gap-3 text-xs text-white/80">
-                  <span className="flex items-center gap-1">
-                    <Eye className="w-3 h-3" /> {reel.views}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Heart className="w-3 h-3" /> {reel.likes}
+              <div className="p-3 space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">{content.views} views</span>
+                  <span className="text-foreground font-medium">{content.engagement} engage</span>
+                </div>
+                
+                {/* AI/Manual badge */}
+                <div className="flex items-center gap-2">
+                  <span className={cn(
+                    "text-xs px-2 py-0.5 rounded-full flex items-center gap-1",
+                    content.isAI 
+                      ? "bg-primary/20 text-primary border border-primary/30" 
+                      : "bg-muted text-muted-foreground border border-border"
+                  )}>
+                    {content.isAI ? (
+                      <>
+                        <Bot className="w-3 h-3" />
+                        AI-made
+                      </>
+                    ) : (
+                      <>
+                        <User className="w-3 h-3" />
+                        Manual
+                      </>
+                    )}
                   </span>
                 </div>
-              </div>
-              
-              {/* Trend indicator */}
-              <div className={cn(
-                "absolute top-2 left-2 w-6 h-6 rounded-full flex items-center justify-center",
-                reel.trend === "up" ? "bg-emerald-500/80" : "bg-rose-500/80"
-              )}>
-                {reel.trend === "up" ? (
-                  <TrendingUp className="w-3 h-3 text-white" />
-                ) : (
-                  <TrendingDown className="w-3 h-3 text-white" />
-                )}
+                
+                {/* Status badge */}
+                <div className={cn(
+                  "text-xs px-2 py-1 rounded-lg border text-center font-medium",
+                  getStatusStyles(content.status)
+                )}>
+                  {getStatusIcon(content.status)} {content.statusLabel}
+                </div>
+                
+                {/* View More button */}
+                <button className="w-full text-xs text-primary hover:text-primary/80 flex items-center justify-center gap-1 pt-1">
+                  View More <ArrowRight className="w-3 h-3" />
+                </button>
               </div>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Selected Reel Details */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Metrics */}
-        <div className="lg:col-span-2 bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
-          <h3 className="text-lg font-semibold font-display text-foreground mb-4">
-            "{selectedReel.title}" Performance
-          </h3>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-            {[
-              { icon: Eye, label: "Views", value: selectedReel.views },
-              { icon: Heart, label: "Likes", value: selectedReel.likes },
-              { icon: MessageCircle, label: "Comments", value: selectedReel.comments },
-              { icon: Share2, label: "Shares", value: selectedReel.shares },
-              { icon: Bookmark, label: "Saves", value: selectedReel.saves },
-              { icon: Users, label: "Engagement", value: selectedReel.engagement },
-            ].map((metric) => (
-              <div key={metric.label} className="bg-secondary/50 rounded-xl p-3 text-center">
-                <metric.icon className="w-4 h-4 text-muted-foreground mx-auto mb-2" />
-                <p className="text-lg font-bold text-foreground">{metric.value}</p>
-                <p className="text-xs text-muted-foreground">{metric.label}</p>
-              </div>
-            ))}
-          </div>
-          
-          {/* Watch time and completion */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-secondary/50 rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Clock className="w-4 h-4 text-primary" />
-                <span className="text-sm text-muted-foreground">Avg Watch Time</span>
-              </div>
-              <p className="text-2xl font-bold text-foreground">{selectedReel.watchTime}</p>
-              <p className="text-xs text-muted-foreground mt-1">Duration: {selectedReel.duration}</p>
-            </div>
-            
-            <div className="bg-secondary/50 rounded-xl p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-muted-foreground">Completion Rate</span>
-                <span className="text-lg font-bold text-primary">{selectedReel.completion}%</span>
-              </div>
-              <div className="h-3 bg-secondary rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-gradient-to-r from-primary to-emerald-400 rounded-full transition-all duration-500"
-                  style={{ width: `${selectedReel.completion}%` }}
-                />
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">Posted {selectedReel.postedAt}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Audience Demographics */}
-        <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
-          <h3 className="text-lg font-semibold font-display text-foreground mb-4">Audience Age</h3>
-          
-          <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={audienceData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={50}
-                  outerRadius={70}
-                  paddingAngle={4}
-                  dataKey="value"
-                >
-                  {audienceData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#1a1a1a', 
-                    border: '1px solid #333',
-                    borderRadius: '12px',
-                    fontSize: '12px'
-                  }} 
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-2 mt-4">
-            {audienceData.map((item) => (
-              <div key={item.name} className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                <span className="text-xs text-muted-foreground">{item.name}</span>
-                <span className="text-xs font-medium text-foreground ml-auto">{item.value}%</span>
-              </div>
-            ))}
-          </div>
+        {/* Load More / View All */}
+        <div className="flex items-center justify-center gap-4">
+          <button className="px-6 py-2 bg-secondary text-foreground rounded-lg text-sm font-medium hover:bg-secondary/80 transition-colors border border-border/50">
+            Load More Content
+          </button>
+          <button className="px-6 py-2 text-primary hover:text-primary/80 text-sm font-medium flex items-center gap-2">
+            View All Posts <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
-      {/* Peak Hours & Geography */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
-          <h3 className="text-lg font-semibold font-display text-foreground mb-2">Peak Viewing Hours</h3>
-          <p className="text-sm text-muted-foreground mb-6">Best times to post for your audience</p>
-          
-          <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={peakHoursData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                <XAxis dataKey="hour" stroke="#666" fontSize={10} />
-                <YAxis stroke="#666" fontSize={10} />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#1a1a1a', 
-                    border: '1px solid #333',
-                    borderRadius: '12px',
-                    fontSize: '12px'
-                  }} 
-                />
-                <Bar dataKey="views" fill="#22c55e" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
-          <h3 className="text-lg font-semibold font-display text-foreground mb-2">Audience Geography</h3>
-          <p className="text-sm text-muted-foreground mb-6">Where your viewers are located</p>
-          
-          <div className="space-y-3">
-            {geographyData.map((item) => (
-              <div key={item.country} className="flex items-center gap-3">
-                <span className="text-lg">{item.flag}</span>
-                <span className="text-sm text-foreground flex-1">{item.country}</span>
-                <div className="w-24 h-2 bg-secondary rounded-full overflow-hidden">
+      {/* Content Type Breakdown */}
+      <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
+        <h3 className="text-lg font-semibold font-display text-foreground mb-4">CONTENT TYPE BREAKDOWN</h3>
+        
+        <div className="space-y-4 mb-6">
+          {contentTypeBreakdown.map((item) => (
+            <div key={item.type} className="flex items-center gap-4">
+              <div className="flex-1">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-sm font-medium text-foreground flex items-center gap-2">
+                    {item.type}: {item.percentage}% ({item.posts} posts)
+                    {item.isTop && <span className="text-emerald-400">🟢</span>}
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Avg {item.avgViews} views, {item.engagement} engagement
+                  </span>
+                </div>
+                <div className="h-2 bg-secondary rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-primary rounded-full"
+                    className={cn(
+                      "h-full rounded-full transition-all duration-500",
+                      item.isTop ? "bg-emerald-500" : "bg-primary"
+                    )}
                     style={{ width: `${item.percentage}%` }}
                   />
                 </div>
-                <span className="text-sm font-medium text-foreground w-10 text-right">{item.percentage}%</span>
               </div>
-            ))}
+            </div>
+          ))}
+        </div>
+
+        <div className="border-t border-border/50 pt-4 space-y-2 text-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-muted-foreground">Best Performing Time:</span>
+            <span className="text-foreground font-medium">2:45 PM EST (12.6% avg engagement)</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-muted-foreground">Worst Performing Time:</span>
+            <span className="text-foreground font-medium">8:00 AM EST (5.2% avg engagement)</span>
           </div>
         </div>
       </div>
