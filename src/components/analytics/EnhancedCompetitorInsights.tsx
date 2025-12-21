@@ -189,63 +189,6 @@ export const EnhancedCompetitorInsights = ({ compact }: EnhancedCompetitorInsigh
         </div>
       </div>
 
-      {/* Content Type Comparison */}
-      <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h3 className="text-lg font-semibold font-display text-foreground">Content Type Comparison</h3>
-            <p className="text-sm text-muted-foreground">How your content types perform vs competitors</p>
-          </div>
-          <button className="flex items-center gap-2 text-sm text-primary font-medium hover:underline">
-            Generate Missing Content <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border/50">
-                <th className="text-left text-xs font-medium text-muted-foreground py-3">Content Type</th>
-                <th className="text-center text-xs font-medium text-muted-foreground py-3">You</th>
-                <th className="text-center text-xs font-medium text-muted-foreground py-3">Comp A</th>
-                <th className="text-center text-xs font-medium text-muted-foreground py-3">Comp B</th>
-                <th className="text-center text-xs font-medium text-muted-foreground py-3">Best</th>
-                <th className="text-right text-xs font-medium text-muted-foreground py-3">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {contentComparison.map((row) => (
-                <tr key={row.type} className="border-b border-border/30 last:border-0">
-                  <td className="py-3 text-sm font-medium text-foreground">{row.type}</td>
-                  <td className="py-3 text-center text-sm text-foreground">{row.you}%</td>
-                  <td className="py-3 text-center text-sm text-muted-foreground">{row.compA}%</td>
-                  <td className="py-3 text-center text-sm text-muted-foreground">{row.compB}%</td>
-                  <td className="py-3 text-center text-sm font-medium text-primary">{row.best}%</td>
-                  <td className="py-3 text-right">
-                    {row.status === "winning" ? (
-                      <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-400">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        Winning!
-                      </span>
-                    ) : (
-                      <span className="text-xs font-medium text-rose-400">
-                        🔴 Gap: {row.gap}
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="mt-4 p-3 bg-primary/5 rounded-xl border border-primary/20">
-          <p className="text-sm text-foreground">
-            <Target className="w-4 h-4 inline mr-2 text-primary" />
-            <span className="font-semibold">FOCUS ON:</span> Product Demos, Behind Scenes, Testimonials
-          </p>
-        </div>
-      </div>
 
       {/* Competitor Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
