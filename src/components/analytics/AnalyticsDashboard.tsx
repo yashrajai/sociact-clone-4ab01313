@@ -2,9 +2,6 @@ import { useState } from "react";
 import { EnhancedOverviewStats } from "./EnhancedOverviewStats";
 import { AIIntelligence } from "./AIIntelligence";
 import { EnhancedCompetitorInsights } from "./EnhancedCompetitorInsights";
-import { EnhancedSocialMetrics } from "./EnhancedSocialMetrics";
-import { EnhancedNicheTrends } from "./EnhancedNicheTrends";
-import { EnhancedReelPerformance } from "./EnhancedReelPerformance";
 import { cn } from "@/lib/utils";
 import { Zap } from "lucide-react";
 
@@ -12,9 +9,6 @@ const tabs = [
   { id: "overview", label: "Overview" },
   { id: "ai-intelligence", label: "AI Intelligence", highlight: true },
   { id: "competitors", label: "Competitors" },
-  { id: "social", label: "Social" },
-  { id: "trends", label: "Trends" },
-  { id: "content", label: "Content" },
 ];
 
 export const AnalyticsDashboard = () => {
@@ -62,14 +56,10 @@ export const AnalyticsDashboard = () => {
         ))}
       </div>
 
-      {/* Content */}
       <div className="space-y-6">
         {activeTab === "overview" && <EnhancedOverviewStats />}
         {activeTab === "ai-intelligence" && <AIIntelligence />}
         {activeTab === "competitors" && <EnhancedCompetitorInsights />}
-        {activeTab === "social" && <EnhancedSocialMetrics />}
-        {activeTab === "trends" && <EnhancedNicheTrends />}
-        {activeTab === "content" && <EnhancedReelPerformance />}
       </div>
     </div>
   );
