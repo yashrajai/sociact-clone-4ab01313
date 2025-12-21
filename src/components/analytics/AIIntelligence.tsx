@@ -1,45 +1,8 @@
-import { useState } from "react";
 import { 
-  Bot, Brain, TrendingUp, Target, Lightbulb, AlertTriangle,
-  CheckCircle2, ChevronDown, ChevronUp, Clock, Play, Eye,
-  Calendar, Sparkles, ArrowRight, FileText, Video, Image
+  Target, AlertTriangle, Clock, Play, CheckCircle2, FileText,
+  Calendar, Sparkles, ArrowRight, Video, Image
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const discoveries = [
-  {
-    id: 1,
-    title: "Early Product Reveal = 2x Retention",
-    finding: "Top competitors show product at 2 sec vs your 8 sec",
-    impact: "They get 67% retention vs your 34% (-33% gap)",
-    action: "Applied to next 8 video scripts",
-    applied: true,
-  },
-  {
-    id: 2,
-    title: "Question CTAs Drive 89% More Comments",
-    finding: '"Which feature would you use?" gets 234 comments avg',
-    finding2: '"Link in bio" gets 43 comments avg',
-    action: "All future captions now use question format",
-    applied: true,
-  },
-  {
-    id: 3,
-    title: "Trending Audio Window = 48 Hours",
-    finding: "Audio tracks lose 67% viral boost after 48 hours",
-    impact: "Using audio in 24-48hr window = 3.4x more reach",
-    action: "Auto-tracking trending audio, applying to next 5 videos",
-    applied: true,
-  },
-  {
-    id: 4,
-    title: "Carousels = 2.1x Save Rate",
-    finding: "Educational carousels get 180 saves avg vs 85 for videos",
-    impact: 'Saves signal "valuable content" to algorithm',
-    action: "Creating 3 carousels this week (5 Tips, Mistakes, Guide)",
-    applied: true,
-  },
-];
 
 
 const weeklyPlan = [
@@ -102,71 +65,8 @@ const weeklyPlan = [
 ];
 
 export const AIIntelligence = () => {
-  const [expandedDiscovery, setExpandedDiscovery] = useState<number | null>(null);
-  const [expandedGap, setExpandedGap] = useState<number | null>(1);
-
   return (
     <div className="space-y-6">
-      {/* AI Discoveries */}
-      <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <Lightbulb className="w-5 h-5 text-primary" />
-          <h3 className="text-lg font-semibold font-display text-foreground">What AI Discovered</h3>
-        </div>
-
-        <div className="space-y-4">
-          {discoveries.map((discovery, index) => (
-            <div
-              key={discovery.id}
-              className="bg-secondary/50 rounded-xl overflow-hidden border border-border/30 hover:border-primary/30 transition-all"
-            >
-              <button
-                onClick={() => setExpandedDiscovery(expandedDiscovery === discovery.id ? null : discovery.id)}
-                className="w-full flex items-center justify-between p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Lightbulb className="w-4 h-4 text-primary" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-sm font-semibold text-foreground">
-                      DISCOVERY #{index + 1}: {discovery.title}
-                    </p>
-                  </div>
-                </div>
-                {expandedDiscovery === discovery.id ? (
-                  <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                )}
-              </button>
-
-              {expandedDiscovery === discovery.id && (
-                <div className="px-4 pb-4 space-y-3 border-t border-border/30 pt-4">
-                  <p className="text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">Finding:</span> {discovery.finding}
-                  </p>
-                  {discovery.finding2 && (
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-medium text-foreground">Finding:</span> {discovery.finding2}
-                    </p>
-                  )}
-                  {discovery.impact && (
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-medium text-foreground">Impact:</span> {discovery.impact}
-                    </p>
-                  )}
-                  <div className="flex items-center gap-2 pt-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                    <span className="text-sm text-emerald-400 font-medium">Action: {discovery.action}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Next Week's AI Strategy */}
       <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
         <div className="flex items-center justify-between mb-6">
