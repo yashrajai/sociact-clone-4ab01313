@@ -5,8 +5,9 @@ import { EnhancedCompetitorInsights } from "./EnhancedCompetitorInsights";
 import { EnhancedSocialMetrics } from "./EnhancedSocialMetrics";
 import { EnhancedNicheTrends } from "./EnhancedNicheTrends";
 import { EnhancedReelPerformance } from "./EnhancedReelPerformance";
+import { AutomationAnalytics } from "./AutomationAnalytics";
 import { cn } from "@/lib/utils";
-import { Zap } from "lucide-react";
+import { Zap, Sparkles } from "lucide-react";
 
 const tabs = [
   { id: "overview", label: "Overview" },
@@ -15,6 +16,7 @@ const tabs = [
   { id: "social", label: "Social" },
   { id: "trends", label: "Trends" },
   { id: "content", label: "Content" },
+  { id: "automation", label: "Auto", highlight: true, star: true },
 ];
 
 export const AnalyticsDashboard = () => {
@@ -56,8 +58,10 @@ export const AnalyticsDashboard = () => {
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
-            {tab.highlight && <Zap className="w-3.5 h-3.5" />}
+            {tab.highlight && !tab.star && <Zap className="w-3.5 h-3.5" />}
+            {tab.star && <Sparkles className="w-3.5 h-3.5" />}
             {tab.label}
+            {tab.star && <span className="text-amber-400">⭐</span>}
           </button>
         ))}
       </div>
@@ -70,6 +74,7 @@ export const AnalyticsDashboard = () => {
         {activeTab === "social" && <EnhancedSocialMetrics />}
         {activeTab === "trends" && <EnhancedNicheTrends />}
         {activeTab === "content" && <EnhancedReelPerformance />}
+        {activeTab === "automation" && <AutomationAnalytics />}
       </div>
     </div>
   );
