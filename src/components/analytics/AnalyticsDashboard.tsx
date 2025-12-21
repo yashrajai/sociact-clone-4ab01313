@@ -1,17 +1,20 @@
 import { useState } from "react";
-import { CompetitorInsights } from "./CompetitorInsights";
-import { NicheTrends } from "./NicheTrends";
-import { SocialMetrics } from "./SocialMetrics";
-import { ReelPerformance } from "./ReelPerformance";
-import { OverviewStats } from "./OverviewStats";
+import { EnhancedOverviewStats } from "./EnhancedOverviewStats";
+import { AIIntelligence } from "./AIIntelligence";
+import { EnhancedCompetitorInsights } from "./EnhancedCompetitorInsights";
+import { EnhancedSocialMetrics } from "./EnhancedSocialMetrics";
+import { EnhancedNicheTrends } from "./EnhancedNicheTrends";
+import { EnhancedReelPerformance } from "./EnhancedReelPerformance";
 import { cn } from "@/lib/utils";
+import { Zap } from "lucide-react";
 
 const tabs = [
   { id: "overview", label: "Overview" },
-  { id: "social", label: "Social Metrics" },
+  { id: "ai-intelligence", label: "AI Intelligence", highlight: true },
   { id: "competitors", label: "Competitors" },
-  { id: "niche", label: "Niche Trends" },
-  { id: "content", label: "Content Performance" },
+  { id: "social", label: "Social" },
+  { id: "trends", label: "Trends" },
+  { id: "content", label: "Content" },
 ];
 
 export const AnalyticsDashboard = () => {
@@ -41,18 +44,19 @@ export const AnalyticsDashboard = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 p-1 bg-secondary/50 rounded-xl w-fit">
+      <div className="flex items-center gap-1 p-1 bg-secondary/50 rounded-xl w-fit overflow-x-auto">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={cn(
-              "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200",
+              "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-1.5",
               activeTab === tab.id
                 ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
+            {tab.highlight && <Zap className="w-3.5 h-3.5" />}
             {tab.label}
           </button>
         ))}
@@ -60,20 +64,12 @@ export const AnalyticsDashboard = () => {
 
       {/* Content */}
       <div className="space-y-6">
-        {activeTab === "overview" && (
-          <>
-            <OverviewStats />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <SocialMetrics compact />
-              <CompetitorInsights compact />
-            </div>
-            <NicheTrends compact />
-          </>
-        )}
-        {activeTab === "social" && <SocialMetrics />}
-        {activeTab === "competitors" && <CompetitorInsights />}
-        {activeTab === "niche" && <NicheTrends />}
-        {activeTab === "content" && <ReelPerformance />}
+        {activeTab === "overview" && <EnhancedOverviewStats />}
+        {activeTab === "ai-intelligence" && <AIIntelligence />}
+        {activeTab === "competitors" && <EnhancedCompetitorInsights />}
+        {activeTab === "social" && <EnhancedSocialMetrics />}
+        {activeTab === "trends" && <EnhancedNicheTrends />}
+        {activeTab === "content" && <EnhancedReelPerformance />}
       </div>
     </div>
   );
