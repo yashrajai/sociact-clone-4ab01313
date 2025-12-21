@@ -1,18 +1,10 @@
 import { useState } from "react";
 import { 
-  Bot, Brain, TrendingUp, Target, Lightbulb, AlertTriangle, 
+  Bot, Brain, TrendingUp, Target, Lightbulb, AlertTriangle,
   CheckCircle2, ChevronDown, ChevronUp, Clock, Play, Eye,
   Calendar, Sparkles, ArrowRight, FileText, Video, Image
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const aiSummary = {
-  postsAnalyzed: 340,
-  trendsDetected: 15,
-  patternsFound: 23,
-  dataPoints: 1240,
-  strategiesApplied: 8,
-};
 
 const discoveries = [
   {
@@ -49,53 +41,6 @@ const discoveries = [
   },
 ];
 
-const performanceGaps = [
-  {
-    id: 1,
-    severity: "high",
-    title: "Product Demos Underperforming by 340%",
-    yourAvg: "6.8%",
-    competitorAvg: "15.7%",
-    rootCauses: [
-      "Hook appears at 5 seconds (competitors: 2 seconds)",
-      "No social proof shown (competitors: show testimonials)",
-      "Product shown from distance (competitors: macro close-ups)",
-      "Selling too hard - 65% promotional (competitors: 20% promo)",
-    ],
-    fixes: [
-      "Hook in first 2 seconds",
-      "Show testimonials (AI avatar clips)",
-      "Macro product shots",
-      "80% education / 20% promotion split",
-    ],
-    status: "Next 5 product videos use new formula",
-  },
-  {
-    id: 2,
-    severity: "medium",
-    title: "Inconsistent Posting Times = -23% Reach",
-    yourPattern: "Random (8am-9pm)",
-    competitorPattern: "Consistent 2-4pm",
-    fixes: [
-      "All posts auto-scheduled for 2:45 PM EST",
-      "Backup slot: 7:30 PM for secondary posts",
-      "Stories: 10 AM, 3 PM, 8 PM daily",
-    ],
-  },
-  {
-    id: 3,
-    severity: "medium",
-    title: "Behind-the-Scenes Videos = -230% Engagement",
-    yourAvg: "6.8%",
-    competitorAvg: "13.2% (raw/authentic)",
-    rootCause: "Too polished. Users want authenticity.",
-    fixes: [
-      "Future BTS videos use raw, no-edit style",
-      "No background music, just talking",
-      "Show real process, mistakes included",
-    ],
-  },
-];
 
 const weeklyPlan = [
   {
@@ -162,48 +107,6 @@ export const AIIntelligence = () => {
 
   return (
     <div className="space-y-6">
-      {/* AI Analysis Summary */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-violet-500/10 via-purple-500/10 to-fuchsia-500/10 border border-violet-500/20 rounded-2xl p-6">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        
-        <div className="relative">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-violet-500/25">
-              <Brain className="w-5 h-5 text-white" />
-            </div>
-            <h3 className="text-lg font-bold font-display text-foreground">AI ANALYZED THIS WEEK</h3>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-6 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-foreground">{aiSummary.postsAnalyzed}</span>
-              <span className="text-muted-foreground">competitor posts</span>
-            </div>
-            <div className="w-px h-6 bg-border" />
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-foreground">{aiSummary.trendsDetected}</span>
-              <span className="text-muted-foreground">market trends</span>
-            </div>
-            <div className="w-px h-6 bg-border" />
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-foreground">{aiSummary.patternsFound}</span>
-              <span className="text-muted-foreground">patterns found</span>
-            </div>
-            <div className="w-px h-6 bg-border" />
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-foreground">{aiSummary.dataPoints.toLocaleString()}</span>
-              <span className="text-muted-foreground">data points</span>
-            </div>
-            <div className="w-px h-6 bg-border" />
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-              <span className="text-2xl font-bold text-foreground">{aiSummary.strategiesApplied}</span>
-              <span className="text-muted-foreground">strategies applied</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* AI Discoveries */}
       <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
         <div className="flex items-center gap-2 mb-6">
@@ -257,114 +160,6 @@ export const AIIntelligence = () => {
                     <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                     <span className="text-sm text-emerald-400 font-medium">Action: {discovery.action}</span>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Performance Gaps */}
-      <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <AlertTriangle className="w-5 h-5 text-amber-400" />
-          <h3 className="text-lg font-semibold font-display text-foreground">Your Performance Gaps</h3>
-        </div>
-
-        <div className="space-y-4">
-          {performanceGaps.map((gap) => (
-            <div
-              key={gap.id}
-              className={cn(
-                "rounded-xl overflow-hidden border transition-all",
-                gap.severity === "high" 
-                  ? "bg-rose-500/5 border-rose-500/20" 
-                  : "bg-amber-500/5 border-amber-500/20"
-              )}
-            >
-              <button
-                onClick={() => setExpandedGap(expandedGap === gap.id ? null : gap.id)}
-                className="w-full flex items-center justify-between p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div className={cn(
-                    "w-8 h-8 rounded-lg flex items-center justify-center",
-                    gap.severity === "high" ? "bg-rose-500/10" : "bg-amber-500/10"
-                  )}>
-                    <AlertTriangle className={cn(
-                      "w-4 h-4",
-                      gap.severity === "high" ? "text-rose-400" : "text-amber-400"
-                    )} />
-                  </div>
-                  <div className="text-left">
-                    <div className="flex items-center gap-2">
-                      <span className={cn(
-                        "px-2 py-0.5 rounded-full text-xs font-semibold uppercase",
-                        gap.severity === "high" ? "bg-rose-500/20 text-rose-400" : "bg-amber-500/20 text-amber-400"
-                      )}>
-                        Gap #{gap.id}
-                      </span>
-                    </div>
-                    <p className="text-sm font-semibold text-foreground mt-1">{gap.title}</p>
-                  </div>
-                </div>
-                {expandedGap === gap.id ? (
-                  <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                )}
-              </button>
-
-              {expandedGap === gap.id && (
-                <div className="px-4 pb-4 space-y-4 border-t border-border/30 pt-4">
-                  {gap.yourAvg && (
-                    <p className="text-sm text-muted-foreground">
-                      Your Avg: <span className="text-foreground font-medium">{gap.yourAvg}</span> engagement | 
-                      Competitor Avg: <span className="text-foreground font-medium">{gap.competitorAvg}</span>
-                    </p>
-                  )}
-                  {gap.yourPattern && (
-                    <p className="text-sm text-muted-foreground">
-                      Your Pattern: <span className="text-foreground font-medium">{gap.yourPattern}</span> | 
-                      Competitors: <span className="text-foreground font-medium">{gap.competitorPattern}</span>
-                    </p>
-                  )}
-                  {gap.rootCause && (
-                    <p className="text-sm text-muted-foreground">
-                      Root Cause: <span className="text-foreground font-medium">{gap.rootCause}</span>
-                    </p>
-                  )}
-                  {gap.rootCauses && (
-                    <div>
-                      <p className="text-sm font-medium text-foreground mb-2">Root Causes Identified:</p>
-                      <ul className="space-y-1">
-                        {gap.rootCauses.map((cause, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                            <span className="text-rose-400">✗</span>
-                            {cause}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  <div>
-                    <p className="text-sm font-medium text-emerald-400 mb-2">✓ FIXES APPLIED:</p>
-                    <ul className="space-y-1">
-                      {gap.fixes.map((fix, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                          <span className="text-emerald-400">•</span>
-                          {fix}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  {gap.status && (
-                    <p className="text-sm text-primary font-medium pt-2">{gap.status}</p>
-                  )}
-                  <button className="flex items-center gap-1 text-sm text-primary font-medium hover:underline group">
-                    Preview Fixed Videos
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
                 </div>
               )}
             </div>
