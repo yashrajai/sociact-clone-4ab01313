@@ -1,13 +1,13 @@
-import { TrendingUp, TrendingDown, Users, Eye, MessageCircle, Share2, Download, MoreHorizontal, Search, Calendar, BarChart3, ArrowRight, Zap, Clock, CheckCircle2, AlertCircle } from "lucide-react";
+import { TrendingUp, TrendingDown, Users, Eye, Heart, MessageCircle, Download, MoreHorizontal, Search, Calendar, BarChart3, ArrowRight, Zap, Clock, CheckCircle2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 const stats = [
-  { label: "Followers", value: "1.2M", change: "+5.2%", trend: "up" },
-  { label: "Views", value: "48.2M", change: "+28.3%", trend: "up" },
-  { label: "Comments", value: "156K", change: "-3.2%", trend: "down" },
-  { label: "Shares", value: "89.4K", change: "+15.7%", trend: "up" },
+  { label: "Total Followers", value: "2.4M", change: "+12.5%", trend: "up", icon: Users, color: "bg-gradient-to-br from-pink-500 to-rose-600" },
+  { label: "Total Views", value: "48.2M", change: "+28.3%", trend: "up", icon: Eye, color: "bg-gradient-to-br from-cyan-500 to-blue-600" },
+  { label: "Engagement Rate", value: "8.7%", change: "+2.1%", trend: "up", icon: Heart, color: "bg-gradient-to-br from-pink-400 to-pink-600" },
+  { label: "Comments", value: "156K", change: "-3.2%", trend: "down", icon: MessageCircle, color: "bg-gradient-to-br from-orange-400 to-orange-600" },
 ];
 
 const competitorPatterns = [
@@ -90,19 +90,20 @@ export const EnhancedOverviewStats = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="space-y-1">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{stat.label}</p>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-semibold text-foreground tracking-tight">{stat.value}</span>
-              <span className={cn(
-                "text-xs font-medium flex items-center gap-0.5",
-                stat.trend === "up" ? "text-emerald-600" : "text-rose-500"
-              )}>
-                {stat.trend === "up" ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                {stat.change}
-              </span>
+          <div key={stat.label} className="bg-secondary/40 border border-border/50 rounded-2xl p-5">
+            <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-4", stat.color)}>
+              <stat.icon className="w-5 h-5 text-white" />
+            </div>
+            <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
+            <p className="text-3xl font-bold text-foreground tracking-tight mb-2">{stat.value}</p>
+            <div className={cn(
+              "flex items-center gap-1 text-sm font-medium",
+              stat.trend === "up" ? "text-emerald-500" : "text-rose-500"
+            )}>
+              {stat.trend === "up" ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+              {stat.change}
             </div>
           </div>
         ))}
