@@ -2,7 +2,7 @@ import { ProfileSnapshot } from "./ProfileSnapshot";
 import { SociActInsights } from "./SociActInsights";
 import { CompetitorEdge } from "./CompetitorEdge";
 import { AutomationResults } from "./AutomationResults";
-import { ContentPipeline } from "./ContentPipeline";
+import { NextMoves } from "./NextMoves";
 
 export const AnalyticsDashboard = () => {
   return (
@@ -34,11 +34,11 @@ export const AnalyticsDashboard = () => {
         <CompetitorEdge />
       </div>
 
-      {/* Automation Results - Main Highlight */}
+      {/* Automation Results - Compact Bar */}
       <AutomationResults />
 
-      {/* Content Pipeline */}
-      <ContentPipeline />
+      {/* SociAct's Next Moves */}
+      <NextMoves />
     </div>
   );
 };
