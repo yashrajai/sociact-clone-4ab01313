@@ -7,17 +7,11 @@ import {
   Trash2,
   Edit3,
   Copy,
-  MoreVertical,
-  Zap,
-  Hash,
-  Heart,
-  AtSign,
-  AlertCircle,
   CheckCircle2,
   PauseCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useToast } from "@/hooks/use-toast";
+import { CommentAutomationWizard } from "./CommentAutomationWizard";
 
 const commentRules = [
   {
@@ -77,26 +71,13 @@ const commentRules = [
   },
 ];
 
-const triggerTypes = [
-  { id: "keywords", label: "Keywords", icon: Hash, description: "Trigger when comment contains specific words" },
-  { id: "emojis", label: "Emojis", icon: Heart, description: "Trigger when comment contains specific emojis" },
-  { id: "mentions", label: "Mentions", icon: AtSign, description: "Trigger when someone mentions another user" },
-  { id: "questions", label: "Questions", icon: AlertCircle, description: "Trigger when comment contains a question" },
-];
-
 export const CommentRules = () => {
-  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
-  const [showNewRule, setShowNewRule] = useState(false);
-  const [selectedTrigger, setSelectedTrigger] = useState<string | null>(null);
+  const [showWizard, setShowWizard] = useState(false);
 
-  const handleCreateRule = () => {
-    toast({
-      title: "Rule Created",
-      description: "Your new comment automation rule has been created successfully.",
-    });
-    setShowNewRule(false);
-  };
+  if (showWizard) {
+    return <CommentAutomationWizard onClose={() => setShowWizard(false)} />;
+  }
 
   return (
     <div className="space-y-6">
@@ -118,105 +99,14 @@ export const CommentRules = () => {
             Filter
           </button>
           <button 
-            onClick={() => setShowNewRule(true)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/25"
+            onClick={() => setShowWizard(true)}
+            className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity shadow-lg shadow-emerald-500/25"
           >
             <Plus className="w-4 h-4" />
             New Rule
           </button>
         </div>
       </div>
-
-      {/* New Rule Modal */}
-      {showNewRule && (
-        <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6 space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold font-display text-foreground">Create Comment Rule</h3>
-            <button 
-              onClick={() => setShowNewRule(false)}
-              className="text-muted-foreground hover:text-foreground"
-            >
-              ✕
-            </button>
-          </div>
-
-          {/* Rule Name */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Rule Name</label>
-            <input
-              type="text"
-              placeholder="e.g., Thank You Response"
-              className="w-full px-4 py-3 bg-secondary/50 border border-border/50 rounded-xl text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-            />
-          </div>
-
-          {/* Trigger Type */}
-          <div className="space-y-3">
-            <label className="text-sm font-medium text-foreground">Trigger Type</label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {triggerTypes.map((trigger) => (
-                <button
-                  key={trigger.id}
-                  onClick={() => setSelectedTrigger(trigger.id)}
-                  className={cn(
-                    "p-4 rounded-xl border text-left transition-all",
-                    selectedTrigger === trigger.id
-                      ? "bg-primary/10 border-primary/50"
-                      : "bg-secondary/50 border-border/50 hover:border-primary/30"
-                  )}
-                >
-                  <trigger.icon className={cn(
-                    "w-5 h-5 mb-2",
-                    selectedTrigger === trigger.id ? "text-primary" : "text-muted-foreground"
-                  )} />
-                  <p className="text-sm font-medium text-foreground">{trigger.label}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{trigger.description}</p>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Keywords */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Keywords (comma separated)</label>
-            <input
-              type="text"
-              placeholder="e.g., amazing, love, great, awesome"
-              className="w-full px-4 py-3 bg-secondary/50 border border-border/50 rounded-xl text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-            />
-          </div>
-
-          {/* Response */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Auto-Response</label>
-            <textarea
-              placeholder="Type your automated response..."
-              rows={3}
-              className="w-full px-4 py-3 bg-secondary/50 border border-border/50 rounded-xl text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
-            />
-            <p className="text-xs text-muted-foreground">
-              Use {"{username}"} to mention the commenter, {"{comment}"} to reference their comment
-            </p>
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-border/50">
-            <button 
-              onClick={() => setShowNewRule(false)}
-              className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Cancel
-            </button>
-            <button 
-              onClick={handleCreateRule}
-              className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
-            >
-              <Zap className="w-4 h-4" />
-              Create Rule
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Rules List */}
       <div className="space-y-4">
@@ -230,12 +120,12 @@ export const CommentRules = () => {
                 <div className={cn(
                   "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0",
                   rule.status === "active" 
-                    ? "bg-gradient-to-br from-pink-500/20 to-purple-600/20" 
+                    ? "bg-gradient-to-br from-emerald-500/20 to-teal-600/20" 
                     : "bg-secondary"
                 )}>
                   <MessageSquare className={cn(
                     "w-6 h-6",
-                    rule.status === "active" ? "text-pink-400" : "text-muted-foreground"
+                    rule.status === "active" ? "text-emerald-400" : "text-muted-foreground"
                   )} />
                 </div>
                 
@@ -261,19 +151,19 @@ export const CommentRules = () => {
                   {/* Keywords */}
                   <div className="flex flex-wrap gap-2 mb-3">
                     {rule.keywords.slice(0, 5).map((keyword, i) => (
-                      <span key={i} className="text-xs px-2 py-1 bg-secondary rounded-lg text-muted-foreground">
+                      <span key={i} className="text-xs px-2 py-1 bg-background border border-border rounded-lg text-muted-foreground">
                         {keyword}
                       </span>
                     ))}
                     {rule.keywords.length > 5 && (
-                      <span className="text-xs px-2 py-1 bg-secondary rounded-lg text-muted-foreground">
+                      <span className="text-xs px-2 py-1 bg-background border border-border rounded-lg text-muted-foreground">
                         +{rule.keywords.length - 5} more
                       </span>
                     )}
                   </div>
                   
                   {/* Response Preview */}
-                  <div className="p-3 bg-secondary/50 rounded-lg">
+                  <div className="p-3 bg-background border border-border rounded-lg">
                     <p className="text-xs text-muted-foreground mb-1">Response:</p>
                     <p className="text-sm text-foreground">{rule.response}</p>
                   </div>
