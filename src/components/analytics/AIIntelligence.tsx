@@ -122,26 +122,38 @@ export const AIIntelligence = () => {
                   </div>
 
                   {/* Prediction */}
-                  <div className="bg-background/50 rounded-lg p-3 mb-4">
-                    <p className="text-xs font-semibold text-muted-foreground mb-2">📊 PREDICTED PERFORMANCE:</p>
-                    <div className="flex flex-wrap gap-4 text-sm">
+                  <div className="bg-background border border-border rounded-xl p-4 mb-4">
+                    <p className="text-xs font-semibold text-foreground/80 mb-3">📊 PREDICTED PERFORMANCE:</p>
+                    <div className="flex flex-wrap gap-3 text-sm">
                       {content.prediction.views && (
-                        <span className="text-foreground">Views: <span className="font-medium">{content.prediction.views}</span></span>
+                        <div className="flex items-center gap-2 px-3 py-2 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                          <span className="text-foreground/80">Views:</span>
+                          <span className="font-bold text-blue-400">{content.prediction.views}</span>
+                        </div>
                       )}
                       {content.prediction.saves && (
-                        <span className="text-foreground">Saves: <span className="font-medium">{content.prediction.saves}</span></span>
+                        <div className="flex items-center gap-2 px-3 py-2 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+                          <span className="text-foreground/80">Saves:</span>
+                          <span className="font-bold text-purple-400">{content.prediction.saves}</span>
+                        </div>
                       )}
-                      <span className="text-foreground">Engagement: <span className="font-medium">{content.prediction.engagement}</span></span>
-                      <span className="text-foreground">Confidence: <span className="font-medium text-primary">{content.prediction.confidence}%</span></span>
+                      <div className="flex items-center gap-2 px-3 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+                        <span className="text-foreground/80">Engagement:</span>
+                        <span className="font-bold text-emerald-400">{content.prediction.engagement}</span>
+                      </div>
+                      <div className="flex items-center gap-2 px-3 py-2 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+                        <span className="text-foreground/80">Confidence:</span>
+                        <span className="font-bold text-amber-400">{content.prediction.confidence}%</span>
+                      </div>
                     </div>
                   </div>
 
                   {/* Applied Learnings */}
                   <div className="mb-4">
-                    <p className="text-xs font-semibold text-muted-foreground mb-2">🎯 APPLIED LEARNINGS:</p>
+                    <p className="text-xs font-semibold text-foreground/80 mb-3">🎯 APPLIED LEARNINGS:</p>
                     <div className="flex flex-wrap gap-2">
                       {content.learnings.map((learning, i) => (
-                        <span key={i} className="flex items-center gap-1 text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                        <span key={i} className="flex items-center gap-1 text-xs bg-primary/15 text-primary px-3 py-1.5 rounded-full border border-primary/20">
                           <CheckCircle2 className="w-3 h-3" />
                           {learning}
                         </span>
