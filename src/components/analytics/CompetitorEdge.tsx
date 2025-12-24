@@ -1,82 +1,95 @@
-import { Users, TrendingDown, ArrowRight, Zap } from "lucide-react";
+import { TrendingUp, TrendingDown, Eye, Heart, MessageCircle, Share2 } from "lucide-react";
 
-const competitors = [
-  { handle: "@fitnessguru", followers: "128K", avatar: "FG" },
-  { handle: "@healthylife", followers: "95K", avatar: "HL" },
-  { handle: "@gymproducts", followers: "82K", avatar: "GP" },
-  { handle: "@fitbrand", followers: "67K", avatar: "FB" },
-  { handle: "@workoutking", followers: "54K", avatar: "WK" },
-];
-
-const improvements = [
-  "Use stronger CTAs - competitors use 'Shop Now' vs your 'Link in bio'",
-  "Post 2x more product demos - top performers post 4/week",
-  "Add trending audio - boosts reach by 40%",
-];
+const competitor = {
+  username: "@fitnessguru",
+  displayName: "Fitness Guru",
+  avatar: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=100&h=100&fit=crop&crop=face",
+  followers: "128K",
+  analytics: {
+    totalViews: "2.4M",
+    viewsTrend: "+12.5%",
+    engagement: "8.2%",
+    engagementTrend: "+2.1%",
+    avgLikes: "15.2K",
+    avgComments: "892",
+    avgShares: "1.2K",
+  }
+};
 
 export const CompetitorEdge = () => {
   return (
     <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
-      <div className="flex items-center justify-between mb-5">
+      {/* Header with Profile */}
+      <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Users className="w-5 h-5 text-primary" />
-          </div>
+          <img 
+            src={competitor.avatar} 
+            alt={competitor.username}
+            className="w-12 h-12 rounded-full object-cover border-2 border-primary/30"
+          />
           <div>
-            <h3 className="text-lg font-semibold font-display text-foreground">Competitor Edge</h3>
-            <p className="text-sm text-muted-foreground">5 competitors found in your niche</p>
+            <h3 className="text-lg font-semibold font-display text-foreground">{competitor.username}</h3>
+            <p className="text-sm text-muted-foreground">{competitor.displayName}</p>
+          </div>
+        </div>
+        <div className="text-right">
+          <p className="text-xl font-bold font-display text-foreground">{competitor.followers}</p>
+          <p className="text-xs text-muted-foreground">Followers</p>
+        </div>
+      </div>
+
+      {/* Main Analytics */}
+      <div className="grid grid-cols-2 gap-4 mb-5">
+        <div className="p-4 bg-background/50 rounded-xl border border-border/30">
+          <div className="flex items-center gap-2 mb-1">
+            <Eye className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">Total Views</span>
+          </div>
+          <p className="text-2xl font-bold font-display text-foreground">{competitor.analytics.totalViews}</p>
+          <div className="flex items-center gap-1 mt-1">
+            <TrendingUp className="w-3 h-3 text-emerald-400" />
+            <span className="text-xs text-emerald-400">{competitor.analytics.viewsTrend}</span>
+          </div>
+        </div>
+        
+        <div className="p-4 bg-background/50 rounded-xl border border-border/30">
+          <div className="flex items-center gap-2 mb-1">
+            <Heart className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">Engagement</span>
+          </div>
+          <p className="text-2xl font-bold font-display text-foreground">{competitor.analytics.engagement}</p>
+          <div className="flex items-center gap-1 mt-1">
+            <TrendingUp className="w-3 h-3 text-emerald-400" />
+            <span className="text-xs text-emerald-400">{competitor.analytics.engagementTrend}</span>
           </div>
         </div>
       </div>
 
-      {/* Competitors List */}
-      <div className="flex items-center gap-2 mb-5 overflow-x-auto pb-2">
-        {competitors.map((comp, index) => (
-          <div 
-            key={index}
-            className="flex items-center gap-2 px-3 py-2 bg-background/50 rounded-xl border border-border/30 shrink-0"
-          >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-muted to-muted-foreground/20 flex items-center justify-center text-xs font-bold text-foreground">
-              {comp.avatar}
-            </div>
-            <div>
-              <p className="text-sm font-medium text-foreground">{comp.handle}</p>
-              <p className="text-xs text-muted-foreground">{comp.followers}</p>
-            </div>
+      {/* Detailed Stats */}
+      <div className="space-y-3">
+        <p className="text-sm font-medium text-foreground">Average Performance</p>
+        <div className="flex items-center justify-between p-3 bg-background/30 rounded-lg">
+          <div className="flex items-center gap-2">
+            <Heart className="w-4 h-4 text-rose-400" />
+            <span className="text-sm text-muted-foreground">Avg Likes</span>
           </div>
-        ))}
-      </div>
-
-      {/* Gap Summary */}
-      <div className="p-4 bg-rose-500/10 rounded-xl border border-rose-500/20 mb-5">
-        <div className="flex items-center gap-2 mb-2">
-          <TrendingDown className="w-4 h-4 text-rose-400" />
-          <span className="text-sm font-medium text-rose-400">Engagement Gap</span>
+          <span className="text-sm font-semibold text-foreground">{competitor.analytics.avgLikes}</span>
         </div>
-        <p className="text-2xl font-bold font-display text-foreground">-3.6%</p>
-        <p className="text-sm text-muted-foreground">below top competitor average</p>
-      </div>
-
-      {/* What They Do Better */}
-      <div className="space-y-2 mb-5">
-        <p className="text-sm font-medium text-foreground mb-3">What they do better:</p>
-        {improvements.map((item, index) => (
-          <div 
-            key={index}
-            className="flex items-start gap-2 text-sm text-muted-foreground"
-          >
-            <span className="text-primary">•</span>
-            <span>{item}</span>
+        <div className="flex items-center justify-between p-3 bg-background/30 rounded-lg">
+          <div className="flex items-center gap-2">
+            <MessageCircle className="w-4 h-4 text-blue-400" />
+            <span className="text-sm text-muted-foreground">Avg Comments</span>
           </div>
-        ))}
+          <span className="text-sm font-semibold text-foreground">{competitor.analytics.avgComments}</span>
+        </div>
+        <div className="flex items-center justify-between p-3 bg-background/30 rounded-lg">
+          <div className="flex items-center gap-2">
+            <Share2 className="w-4 h-4 text-primary" />
+            <span className="text-sm text-muted-foreground">Avg Shares</span>
+          </div>
+          <span className="text-sm font-semibold text-foreground">{competitor.analytics.avgShares}</span>
+        </div>
       </div>
-
-      {/* CTA Button */}
-      <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors">
-        <Zap className="w-4 h-4" />
-        Apply Their Strategies
-        <ArrowRight className="w-4 h-4" />
-      </button>
     </div>
   );
 };
