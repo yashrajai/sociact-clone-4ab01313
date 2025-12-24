@@ -24,12 +24,6 @@ const nextMoves = [
     reason: "Your audience is most active between 6-8PM based on engagement patterns",
     icon: Clock,
     impact: "+32% engagement"
-  },
-  {
-    change: "Including product close-ups in B-roll",
-    reason: "Top performing reels in supplement niche feature 3-4 product shots",
-    icon: Sparkles,
-    impact: "+28% saves"
   }
 ];
 
