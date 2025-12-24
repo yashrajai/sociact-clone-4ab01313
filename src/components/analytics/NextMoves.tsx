@@ -48,30 +48,35 @@ export const NextMoves = () => {
       <div className="space-y-3">
         {nextMoves.map((move, index) => {
           const Icon = move.icon;
+          const iconColors = [
+            { color: "text-amber-400", bg: "bg-amber-500/20" },
+            { color: "text-emerald-400", bg: "bg-emerald-500/20" },
+            { color: "text-purple-400", bg: "bg-purple-500/20" },
+            { color: "text-blue-400", bg: "bg-blue-500/20" },
+          ];
+          const iconStyle = iconColors[index % iconColors.length];
           
           return (
             <div 
               key={index}
-              className="group p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors"
+              className="flex items-start gap-4 p-4 bg-background border border-border rounded-xl hover:border-border/80 transition-colors"
             >
-              <div className="flex items-start gap-4">
-                {/* Icon */}
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                  <Icon className="w-5 h-5 text-primary" />
-                </div>
+              {/* Icon */}
+              <div className={`w-10 h-10 rounded-lg ${iconStyle.bg} flex items-center justify-center shrink-0`}>
+                <Icon className={`w-5 h-5 ${iconStyle.color}`} />
+              </div>
 
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-semibold text-foreground">{move.change}</p>
-                    <span className="px-2 py-0.5 text-xs font-medium bg-emerald-500/15 text-emerald-500 rounded-full">
-                      {move.impact}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <ArrowRight className="w-3 h-3 shrink-0" />
-                    <p className="text-xs">{move.reason}</p>
-                  </div>
+              {/* Content */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <p className="text-base font-bold text-foreground">{move.change}</p>
+                  <span className="px-2 py-0.5 text-xs font-medium bg-emerald-500/15 text-emerald-500 rounded-full">
+                    {move.impact}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <ArrowRight className="w-3 h-3 shrink-0" />
+                  <p className="text-sm text-foreground/80">{move.reason}</p>
                 </div>
               </div>
             </div>
