@@ -12,7 +12,7 @@ export const TopBar = () => {
   };
 
   return (
-    <div className="flex items-center justify-end gap-3 px-6 py-3 border-b border-border bg-background/50 backdrop-blur-sm">
+    <div className="flex items-center justify-end gap-3 px-6 py-3 bg-transparent">
       <button
         onClick={handleUpgrade}
         className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-secondary/80 rounded-lg transition-colors"
