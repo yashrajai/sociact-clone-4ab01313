@@ -86,12 +86,6 @@ export const NextMoves = () => {
         })}
       </div>
 
-      {/* Summary */}
-      <div className="mt-5 p-4 bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl border border-primary/20">
-        <p className="text-sm text-foreground">
-          <span className="font-semibold">Expected impact:</span> These changes are projected to increase your overall engagement by <span className="text-primary font-bold">~40%</span> based on competitor analysis.
-        </p>
-      </div>
     </div>
   );
 };
