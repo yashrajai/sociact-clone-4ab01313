@@ -81,9 +81,6 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
       { id: "settings", icon: <img src={settingsIcon} alt="Settings" className="w-5 h-5 invert brightness-0 invert opacity-70" />, label: "Settings" },
       { id: "pricing", icon: <Crown className="w-5 h-5" />, label: "Pricing" },
     ]},
-    { section: "Support", items: [
-      { id: "help-support", icon: <MessageCircleQuestion className="w-5 h-5" />, label: "Help & Support" },
-    ]},
   ];
 
   return (
