@@ -74,7 +74,7 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
       { id: "thumbnail-generation", icon: <Frame className="w-5 h-5" />, label: "Thumbnail Generation" },
     ]},
     { section: "Ad Creation", items: [
-      { id: "ai-avatar", icon: <img src={aiAvatarIcon} alt="AI Avatar" className="w-5 h-5" />, label: "AI Avatar" },
+      { id: "ai-avatar", icon: <img src={aiAvatarIcon} alt="AI Avatar" className="w-5 h-5 invert brightness-0 invert opacity-70" />, label: "AI Avatar" },
     ]},
     { section: "Account", items: [
       { id: "settings", icon: <SlidersHorizontal className="w-5 h-5" />, label: "Settings" },
