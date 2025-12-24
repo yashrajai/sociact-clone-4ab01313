@@ -1,5 +1,4 @@
 import { 
-  Gauge, 
   BarChart3, 
   BotMessageSquare, 
   Wand2, 
@@ -14,6 +13,8 @@ import {
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import aiAvatarIcon from "@/assets/ai-avatar-icon.png";
+import commandCenterIcon from "@/assets/command-center-icon.png";
+
 interface NavItemProps {
   icon: React.ReactNode;
   label: string;
@@ -64,7 +65,7 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
 
   const navItems = [
     { section: "Dashboard", items: [
-      { id: "overview", icon: <Gauge className="w-5 h-5" />, label: "Overview" },
+      { id: "overview", icon: <img src={commandCenterIcon} alt="Command Center" className="w-5 h-5 invert brightness-0 invert opacity-70" />, label: "Command Center" },
       { id: "analytics", icon: <BarChart3 className="w-5 h-5" />, label: "Analytics" },
     ]},
     { section: "AI Tools", items: [
