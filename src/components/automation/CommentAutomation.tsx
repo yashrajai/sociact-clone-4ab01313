@@ -1,32 +1,23 @@
 import { useState } from "react";
-import { AutomationOverview } from "./AutomationOverview";
 import { CommentRules } from "./CommentRules";
 import { DMAutomation } from "./DMAutomation";
 import { TemplateManager } from "./TemplateManager";
-import { FlowBuilder } from "./FlowBuilder";
-import { AutomationAnalytics } from "./AutomationAnalytics";
 import { cn } from "@/lib/utils";
 import { 
   MessageSquare, 
   Send, 
-  Zap, 
-  FileText, 
-  GitBranch, 
-  BarChart3
+  FileText
 } from "lucide-react";
 import instagramLogo from "@/assets/instagram-logo.png";
 
 const tabs = [
-  { id: "overview", label: "Overview", icon: Zap },
   { id: "comments", label: "Comment Rules", icon: MessageSquare },
   { id: "dms", label: "DM Automation", icon: Send },
   { id: "templates", label: "Templates", icon: FileText },
-  { id: "flows", label: "Flow Builder", icon: GitBranch },
-  { id: "analytics", label: "Analytics", icon: BarChart3 },
 ];
 
 export const CommentAutomation = () => {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("comments");
 
   return (
     <div className="p-6 space-y-6">
@@ -73,12 +64,9 @@ export const CommentAutomation = () => {
 
       {/* Content */}
       <div className="space-y-6">
-        {activeTab === "overview" && <AutomationOverview />}
         {activeTab === "comments" && <CommentRules />}
         {activeTab === "dms" && <DMAutomation />}
         {activeTab === "templates" && <TemplateManager />}
-        {activeTab === "flows" && <FlowBuilder />}
-        {activeTab === "analytics" && <AutomationAnalytics />}
       </div>
     </div>
   );
