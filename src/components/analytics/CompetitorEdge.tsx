@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown, Eye, Heart, MessageCircle, Share2 } from "lucide-react";
+import { TrendingUp, Eye, Heart, MessageCircle, Share2 } from "lucide-react";
 
 const competitor = {
   username: "@fitnessguru",
@@ -18,14 +18,14 @@ const competitor = {
 
 export const CompetitorEdge = () => {
   return (
-    <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
+    <div className="bg-secondary border border-border rounded-2xl p-6">
       {/* Header with Profile */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <img 
             src={competitor.avatar} 
             alt={competitor.username}
-            className="w-12 h-12 rounded-full object-cover border-2 border-primary/30"
+            className="w-12 h-12 rounded-full object-cover border-2 border-border"
           />
           <div>
             <h3 className="text-lg font-semibold font-display text-foreground">{competitor.username}</h3>
@@ -47,8 +47,8 @@ export const CompetitorEdge = () => {
           </div>
           <p className="text-2xl font-bold font-display text-foreground">{competitor.analytics.totalViews}</p>
           <div className="flex items-center gap-1 mt-1">
-            <TrendingUp className="w-3 h-3 text-emerald-400" />
-            <span className="text-xs text-emerald-400">{competitor.analytics.viewsTrend}</span>
+            <TrendingUp className="w-3 h-3 text-emerald-500" />
+            <span className="text-xs font-medium text-emerald-500">{competitor.analytics.viewsTrend}</span>
           </div>
         </div>
         
@@ -59,32 +59,32 @@ export const CompetitorEdge = () => {
           </div>
           <p className="text-2xl font-bold font-display text-foreground">{competitor.analytics.engagement}</p>
           <div className="flex items-center gap-1 mt-1">
-            <TrendingUp className="w-3 h-3 text-emerald-400" />
-            <span className="text-xs text-emerald-400">{competitor.analytics.engagementTrend}</span>
+            <TrendingUp className="w-3 h-3 text-emerald-500" />
+            <span className="text-xs font-medium text-emerald-500">{competitor.analytics.engagementTrend}</span>
           </div>
         </div>
       </div>
 
       {/* Detailed Stats */}
       <div className="space-y-2">
-        <p className="text-sm font-medium text-muted-foreground mb-3">Average Performance</p>
-        <div className="flex items-center justify-between py-2">
+        <p className="text-sm font-medium text-foreground mb-3">Average Performance</p>
+        <div className="flex items-center justify-between py-2 border-b border-border/50">
           <div className="flex items-center gap-2">
-            <Heart className="w-4 h-4 text-rose-400" />
+            <Heart className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Avg Likes</span>
           </div>
           <span className="text-sm font-semibold text-foreground">{competitor.analytics.avgLikes}</span>
         </div>
-        <div className="flex items-center justify-between py-2">
+        <div className="flex items-center justify-between py-2 border-b border-border/50">
           <div className="flex items-center gap-2">
-            <MessageCircle className="w-4 h-4 text-blue-400" />
+            <MessageCircle className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Avg Comments</span>
           </div>
           <span className="text-sm font-semibold text-foreground">{competitor.analytics.avgComments}</span>
         </div>
         <div className="flex items-center justify-between py-2">
           <div className="flex items-center gap-2">
-            <Share2 className="w-4 h-4 text-primary" />
+            <Share2 className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Avg Shares</span>
           </div>
           <span className="text-sm font-semibold text-foreground">{competitor.analytics.avgShares}</span>
