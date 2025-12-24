@@ -11,12 +11,12 @@ const stats = [
 
 export const AutomationResults = () => {
   return (
-    <div className="bg-gradient-to-r from-primary/5 via-secondary/30 to-primary/5 backdrop-blur-sm border border-primary/20 rounded-2xl p-4">
-      <div className="flex items-center gap-6 overflow-x-auto scrollbar-hide">
+    <div className="bg-secondary/40 backdrop-blur-sm border border-border/50 rounded-xl px-5 py-3">
+      <div className="flex items-center justify-between gap-8">
         {/* Title */}
-        <div className="flex items-center gap-3 shrink-0 pr-4 border-r border-border/30">
-          <div className="w-9 h-9 rounded-lg bg-primary/20 flex items-center justify-center">
-            <Zap className="w-4 h-4 text-primary" />
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <Zap className="w-5 h-5 text-primary" />
           </div>
           <div>
             <h3 className="text-sm font-semibold font-display text-foreground">Automation</h3>
@@ -28,15 +28,17 @@ export const AutomationResults = () => {
         </div>
 
         {/* Stats Row */}
-        {stats.map((stat, index) => (
-          <div key={index} className="flex items-center gap-2.5 shrink-0">
-            <stat.icon className={`w-4 h-4 ${stat.color}`} />
-            <div>
-              <p className="text-lg font-bold font-display text-foreground leading-none">{stat.value}</p>
-              <p className="text-xs text-muted-foreground">{stat.label}</p>
+        <div className="flex items-center gap-10">
+          {stats.map((stat, index) => (
+            <div key={index} className="flex items-center gap-2.5">
+              <stat.icon className={`w-4 h-4 ${stat.color}`} />
+              <div className="flex items-baseline gap-1.5">
+                <p className="text-base font-bold font-display text-foreground">{stat.value}</p>
+                <p className="text-xs text-muted-foreground">{stat.label}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
