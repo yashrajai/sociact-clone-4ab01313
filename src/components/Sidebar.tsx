@@ -5,7 +5,6 @@ import {
   Wand2, 
   Clapperboard, 
   Frame, 
-  FileSearch2, 
   ScanFace, 
   SlidersHorizontal, 
   Crown, 
@@ -74,7 +73,6 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
       { id: "image-generation", icon: <Wand2 className="w-5 h-5" />, label: "Image Generation", badge: "NEW" },
       { id: "video-generation", icon: <Clapperboard className="w-5 h-5" />, label: "Video Generation", badge: "NEW" },
       { id: "thumbnail-generation", icon: <Frame className="w-5 h-5" />, label: "Thumbnail Generation" },
-      { id: "seo-analyser", icon: <FileSearch2 className="w-5 h-5" />, label: "Seo Analyser" },
     ]},
     { section: "Ad Creation", items: [
       { id: "ai-avatar", icon: <ScanFace className="w-5 h-5" />, label: "AI Avatar" },
