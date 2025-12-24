@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
+import { TopBar } from "@/components/TopBar";
 import { Dashboard } from "@/components/Dashboard";
 import { AnalyticsDashboard } from "@/components/analytics/AnalyticsDashboard";
 import { CommentAutomation } from "@/components/automation/CommentAutomation";
@@ -38,9 +39,12 @@ const Index = () => {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar activeItem={activeItem} onItemClick={handleItemClick} />
-      <main className="flex-1 overflow-y-auto">
-        {renderContent()}
-      </main>
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <TopBar />
+        <main className="flex-1 overflow-y-auto">
+          {renderContent()}
+        </main>
+      </div>
     </div>
   );
 };
