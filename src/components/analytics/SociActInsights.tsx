@@ -76,13 +76,6 @@ export const SociActInsights = () => {
           </div>
         ))}
       </div>
-
-      <div className="mt-4 p-3 bg-primary/10 rounded-xl">
-        <p className="text-sm text-foreground">
-          <Sparkles className="w-4 h-4 inline mr-2 text-primary" />
-          <span className="font-medium">SociAct Tip:</span> Your question hooks get 2.3x more engagement. Keep using them!
-        </p>
-      </div>
     </div>
   );
 };
