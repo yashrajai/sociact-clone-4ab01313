@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { 
@@ -15,20 +14,25 @@ import {
   Share2,
   Maximize2,
   ChevronRight,
-  Loader2
+  Loader2,
+  RatioIcon
 } from "lucide-react";
 import { ModelSelector } from "./ModelSelector";
-import { AspectRatioSelector } from "./AspectRatioSelector";
-import { StyleSelector } from "./StyleSelector";
-import { AdvancedSettings } from "./AdvancedSettings";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+
+const ratios = [
+  { id: "1:1", label: "Square", width: 40, height: 40 },
+  { id: "16:9", label: "Wide", width: 48, height: 27 },
+  { id: "9:16", label: "Tall", width: 27, height: 48 },
+  { id: "4:3", label: "Standard", width: 44, height: 33 },
+];
 
 export const GenerationStudio = () => {
   const [prompt, setPrompt] = useState("");
   const [referenceImage, setReferenceImage] = useState<string | null>(null);
-  const [selectedModel, setSelectedModel] = useState("flux");
+  const [selectedModel, setSelectedModel] = useState("runway");
   const [aspectRatio, setAspectRatio] = useState("1:1");
-  const [selectedStyle, setSelectedStyle] = useState("cinematic");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
 
@@ -38,7 +42,6 @@ export const GenerationStudio = () => {
       return;
     }
     setIsGenerating(true);
-    // Simulate generation
     setTimeout(() => {
       setGeneratedImages([
         "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=800&fit=crop",
@@ -71,7 +74,6 @@ export const GenerationStudio = () => {
   const modelCredits: Record<string, number> = {
     seedreme: 2,
     nanobanana: 1,
-    flux: 3,
     runway: 5,
     ideogram: 4,
   };
@@ -81,24 +83,24 @@ export const GenerationStudio = () => {
       {/* Left Panel - Controls */}
       <div className="lg:col-span-2 space-y-4">
         {/* AI Agent Status */}
-        <Card className="p-4 bg-gradient-to-br from-emerald-500/10 via-card to-cyan-500/10 border-emerald-500/20">
+        <div className="bg-secondary/40 border border-border/50 rounded-xl p-4">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
+                <Brain className="w-5 h-5 text-primary" />
               </div>
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-card animate-pulse" />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-secondary" />
             </div>
             <div className="flex-1">
-              <div className="font-medium text-sm">AI Agent Active</div>
+              <div className="font-medium text-sm text-foreground">AI Agent Active</div>
               <div className="text-xs text-muted-foreground">Ready to generate your vision</div>
             </div>
-            <div className="flex items-center gap-1 text-emerald-400">
+            <div className="flex items-center gap-1.5 text-primary">
               <Zap className="w-4 h-4" />
               <span className="text-sm font-medium">Online</span>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Model Selector */}
         <ModelSelector 
@@ -108,50 +110,50 @@ export const GenerationStudio = () => {
         />
 
         {/* Prompt Input */}
-        <Card className="p-4 bg-card/50 border-border/50">
+        <div className="bg-secondary/40 border border-border/50 rounded-xl p-4">
           <div className="flex items-center justify-between mb-3">
-            <label className="text-sm font-medium flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-emerald-400" />
+            <label className="text-sm font-medium flex items-center gap-2 text-foreground">
+              <Sparkles className="w-4 h-4 text-primary" />
               Prompt
             </label>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleEnhancePrompt}
-              className="text-xs text-emerald-400 hover:text-emerald-300 gap-1"
+              className="text-xs text-primary hover:text-primary/80 gap-1 h-auto py-1 px-2"
             >
               <Wand2 className="w-3 h-3" />
               Enhance with AI
             </Button>
           </div>
           <Textarea
-            placeholder="Describe your image in detail... The more specific, the better the results."
+            placeholder="Describe your image in detail. The more specific, the better the results."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            className="min-h-[120px] bg-background/50 border-border/50 focus:border-emerald-500/50 resize-none"
+            className="min-h-[100px] bg-background/50 border-border/30 focus:border-primary/50 resize-none text-sm"
           />
-          <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center justify-between mt-3">
             <span className="text-xs text-muted-foreground">{prompt.length} characters</span>
-            <div className="flex gap-1">
+            <div className="flex gap-1.5">
               {["Portrait", "Landscape", "Abstract", "Product"].map((tag) => (
                 <button
                   key={tag}
                   onClick={() => setPrompt(prompt + ` ${tag.toLowerCase()} style`)}
-                  className="px-2 py-1 text-xs rounded-md bg-background/50 hover:bg-emerald-500/20 text-muted-foreground hover:text-foreground transition-colors"
+                  className="px-2 py-1 text-xs rounded-md text-muted-foreground hover:text-foreground hover:bg-background/50 transition-colors"
                 >
                   {tag}
                 </button>
               ))}
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Reference Image */}
-        <Card className="p-4 bg-card/50 border-border/50">
-          <label className="text-sm font-medium flex items-center gap-2 mb-3">
-            <Upload className="w-4 h-4 text-emerald-400" />
+        <div className="bg-secondary/40 border border-border/50 rounded-xl p-4">
+          <label className="text-sm font-medium flex items-center gap-2 mb-3 text-foreground">
+            <Upload className="w-4 h-4 text-primary" />
             Reference Image
-            <span className="text-xs text-muted-foreground">(Optional)</span>
+            <span className="text-xs text-muted-foreground font-normal">(Optional)</span>
           </label>
           
           {referenceImage ? (
@@ -159,7 +161,7 @@ export const GenerationStudio = () => {
               <img
                 src={referenceImage}
                 alt="Reference"
-                className="w-full h-32 object-cover rounded-lg"
+                className="w-full h-28 object-cover rounded-lg"
               />
               <button
                 onClick={() => setReferenceImage(null)}
@@ -167,13 +169,10 @@ export const GenerationStudio = () => {
               >
                 <X className="w-4 h-4 text-white" />
               </button>
-              <div className="absolute bottom-2 left-2 px-2 py-1 rounded bg-black/60 text-xs">
-                Reference loaded
-              </div>
             </div>
           ) : (
-            <label className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-border/50 rounded-lg cursor-pointer hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all">
-              <Upload className="w-8 h-8 text-muted-foreground mb-2" />
+            <label className="flex flex-col items-center justify-center h-28 border-2 border-dashed border-border/30 rounded-lg cursor-pointer hover:border-primary/30 hover:bg-primary/5 transition-all">
+              <Upload className="w-6 h-6 text-muted-foreground mb-2" />
               <span className="text-sm text-muted-foreground">Drop image or click to upload</span>
               <input
                 type="file"
@@ -183,81 +182,89 @@ export const GenerationStudio = () => {
               />
             </label>
           )}
-        </Card>
+        </div>
 
         {/* Aspect Ratio */}
-        <AspectRatioSelector 
-          selected={aspectRatio} 
-          onSelect={setAspectRatio} 
-        />
-
-        {/* Style Selector */}
-        <StyleSelector 
-          selected={selectedStyle} 
-          onSelect={setSelectedStyle} 
-        />
-
-        {/* Advanced Settings */}
-        <AdvancedSettings />
+        <div className="bg-secondary/40 border border-border/50 rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-4">
+            <RatioIcon className="w-4 h-4 text-primary" />
+            <label className="text-sm font-medium text-foreground">Aspect Ratio</label>
+          </div>
+          
+          <div className="grid grid-cols-4 gap-2">
+            {ratios.map((ratio) => (
+              <button
+                key={ratio.id}
+                onClick={() => setAspectRatio(ratio.id)}
+                className={cn(
+                  "flex flex-col items-center p-3 rounded-xl border transition-all",
+                  aspectRatio === ratio.id
+                    ? "bg-primary/10 border-primary/50"
+                    : "bg-background/30 border-border/30 hover:border-primary/30"
+                )}
+              >
+                <div 
+                  className={cn(
+                    "rounded border-2 mb-2 transition-colors",
+                    aspectRatio === ratio.id ? "border-primary" : "border-muted-foreground/30"
+                  )}
+                  style={{ 
+                    width: ratio.width * 0.5, 
+                    height: ratio.height * 0.5 
+                  }}
+                />
+                <span className="text-xs text-muted-foreground">{ratio.id}</span>
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Generate Button */}
-        <Card className="p-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border-emerald-500/30">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <div className="text-sm font-medium">Generation Cost</div>
-              <div className="text-xs text-muted-foreground">Using {selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1)}</div>
-            </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-emerald-400">{modelCredits[selectedModel]} credits</div>
-              <div className="text-xs text-muted-foreground">per image</div>
-            </div>
-          </div>
-          <Button
-            onClick={handleGenerate}
-            disabled={isGenerating || !prompt.trim()}
-            className="w-full h-12 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-medium text-lg gap-2"
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Generating...
-              </>
-            ) : (
-              <>
-                <Sparkles className="w-5 h-5" />
-                Generate Images
-                <ChevronRight className="w-5 h-5" />
-              </>
-            )}
-          </Button>
-        </Card>
+        <Button
+          onClick={handleGenerate}
+          disabled={isGenerating || !prompt.trim()}
+          className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-base gap-2"
+        >
+          {isGenerating ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              Generating...
+            </>
+          ) : (
+            <>
+              <Sparkles className="w-5 h-5" />
+              Generate Images
+              <span className="ml-2 text-sm opacity-80">({modelCredits[selectedModel]} credits)</span>
+            </>
+          )}
+        </Button>
       </div>
 
       {/* Right Panel - Preview */}
       <div className="lg:col-span-3">
-        <Card className="h-full min-h-[600px] p-6 bg-card/30 border-border/50">
+        <div className="h-full min-h-[600px] bg-secondary/20 border border-border/30 rounded-xl p-6">
           {isGenerating ? (
             <div className="h-full flex flex-col items-center justify-center">
               <div className="relative">
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center animate-pulse">
-                  <Brain className="w-12 h-12 text-emerald-400" />
+                <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center animate-pulse">
+                  <Brain className="w-10 h-10 text-primary" />
                 </div>
-                <div className="absolute inset-0 rounded-2xl border-2 border-emerald-500/30 animate-ping" />
+                <div className="absolute inset-0 rounded-2xl border-2 border-primary/30 animate-ping" />
               </div>
               <div className="mt-6 text-center">
-                <h3 className="text-lg font-medium">AI is creating your vision</h3>
+                <h3 className="text-lg font-medium text-foreground">AI is creating your vision</h3>
                 <p className="text-sm text-muted-foreground mt-1">This usually takes 10-30 seconds</p>
               </div>
               <div className="mt-4 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce" style={{ animationDelay: "0ms" }} />
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce" style={{ animationDelay: "150ms" }} />
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce" style={{ animationDelay: "300ms" }} />
+                <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "0ms" }} />
+                <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "150ms" }} />
+                <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "300ms" }} />
               </div>
             </div>
           ) : generatedImages.length > 0 ? (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium">Generated Results</h3>
+                <h3 className="text-lg font-medium text-foreground">Generated Results</h3>
                 <Button variant="outline" size="sm" onClick={() => setGeneratedImages([])} className="gap-2">
                   <RefreshCw className="w-4 h-4" />
                   Clear
@@ -294,16 +301,13 @@ export const GenerationStudio = () => {
             </div>
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-center">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-border/50 flex items-center justify-center mb-4">
-                <Sparkles className="w-10 h-10 text-emerald-400/50" />
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
+                <Sparkles className="w-8 h-8 text-primary/50" />
               </div>
-              <h3 className="text-lg font-medium text-muted-foreground">Your creations will appear here</h3>
-              <p className="text-sm text-muted-foreground/60 mt-1 max-w-xs">
-                Enter a prompt, select your preferences, and click generate to create stunning images
-              </p>
+              <h3 className="text-base font-medium text-muted-foreground">Your creations will appear here</h3>
             </div>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   );
