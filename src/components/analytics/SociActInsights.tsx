@@ -29,9 +29,9 @@ export const SociActInsights = () => {
   ];
 
   return (
-    <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
+    <div className="bg-secondary border border-border rounded-2xl p-6">
       <div className="flex items-center gap-3 mb-5">
-        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center">
           <Brain className="w-5 h-5 text-primary" />
         </div>
         <div>
@@ -40,19 +40,19 @@ export const SociActInsights = () => {
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {insights.map((insight, index) => (
           <div 
             key={index}
-            className="flex items-start gap-3 p-3 bg-background/50 rounded-xl border border-border/30"
+            className="flex items-start gap-3 p-3 bg-muted/50 rounded-xl"
           >
-            <div className="w-8 h-8 rounded-lg bg-primary/5 flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
               <insight.icon className="w-4 h-4 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-xs text-muted-foreground">{insight.label}</span>
-                <span className="text-sm font-medium text-foreground">{insight.value}</span>
+                <span className="text-xs font-medium text-muted-foreground">{insight.label}</span>
+                <span className="text-sm font-semibold text-foreground">{insight.value}</span>
               </div>
               <p className="text-xs text-muted-foreground mt-0.5 truncate">{insight.detail}</p>
             </div>
@@ -60,7 +60,7 @@ export const SociActInsights = () => {
         ))}
       </div>
 
-      <div className="mt-4 p-3 bg-primary/5 rounded-xl border border-primary/20">
+      <div className="mt-4 p-3 bg-primary/10 rounded-xl">
         <p className="text-sm text-foreground">
           <Sparkles className="w-4 h-4 inline mr-2 text-primary" />
           <span className="font-medium">SociAct Tip:</span> Your question hooks get 2.3x more engagement. Keep using them!

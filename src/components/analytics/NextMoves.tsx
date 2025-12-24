@@ -1,5 +1,4 @@
 import { Lightbulb, ArrowRight, TrendingUp, Zap, Clock, Target, Sparkles } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const nextMoves = [
   {
@@ -36,10 +35,10 @@ const nextMoves = [
 
 export const NextMoves = () => {
   return (
-    <div className="bg-secondary/30 backdrop-blur-sm border border-border/50 rounded-2xl p-6">
+    <div className="bg-secondary border border-border rounded-2xl p-6">
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center">
             <Lightbulb className="w-5 h-5 text-primary" />
           </div>
           <div>
@@ -47,7 +46,7 @@ export const NextMoves = () => {
             <p className="text-sm text-muted-foreground">Changes in your next content cycle</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 rounded-full border border-primary/20">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-primary/15 rounded-full">
           <span className="text-xs font-medium text-primary">5 optimizations queued</span>
         </div>
       </div>
@@ -59,7 +58,7 @@ export const NextMoves = () => {
           return (
             <div 
               key={index}
-              className="group p-4 rounded-xl bg-background/30 border border-border/30 hover:border-primary/30 transition-all"
+              className="group p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors"
             >
               <div className="flex items-start gap-4">
                 {/* Icon */}
@@ -70,8 +69,8 @@ export const NextMoves = () => {
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-medium text-foreground">{move.change}</p>
-                    <span className="px-2 py-0.5 text-xs font-medium bg-emerald-500/10 text-emerald-500 rounded-full">
+                    <p className="text-sm font-semibold text-foreground">{move.change}</p>
+                    <span className="px-2 py-0.5 text-xs font-medium bg-emerald-500/15 text-emerald-500 rounded-full">
                       {move.impact}
                     </span>
                   </div>
@@ -85,7 +84,6 @@ export const NextMoves = () => {
           );
         })}
       </div>
-
     </div>
   );
 };
