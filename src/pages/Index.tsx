@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
-import { TopBar } from "@/components/TopBar";
+
 import { PromoBanner } from "@/components/PromoBanner";
 import { Dashboard } from "@/components/Dashboard";
 import { AnalyticsDashboard } from "@/components/analytics/AnalyticsDashboard";
@@ -43,7 +43,6 @@ const Index = () => {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar activeItem={activeItem} onItemClick={handleItemClick} />
         <div className="flex-1 flex flex-col overflow-hidden">
-          <TopBar />
           <main className="flex-1 overflow-y-auto">
             {renderContent()}
           </main>
