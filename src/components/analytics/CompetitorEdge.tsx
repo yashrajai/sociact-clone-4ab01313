@@ -38,9 +38,9 @@ export const CompetitorEdge = () => {
         </div>
       </div>
 
-      {/* Main Analytics */}
-      <div className="grid grid-cols-2 gap-4 mb-5">
-        <div className="p-4 bg-background/50 rounded-xl border border-border/30">
+      {/* Main Analytics - Side by Side */}
+      <div className="flex items-start gap-8 mb-6">
+        <div>
           <div className="flex items-center gap-2 mb-1">
             <Eye className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Total Views</span>
@@ -52,7 +52,7 @@ export const CompetitorEdge = () => {
           </div>
         </div>
         
-        <div className="p-4 bg-background/50 rounded-xl border border-border/30">
+        <div>
           <div className="flex items-center gap-2 mb-1">
             <Heart className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Engagement</span>
@@ -66,23 +66,23 @@ export const CompetitorEdge = () => {
       </div>
 
       {/* Detailed Stats */}
-      <div className="space-y-3">
-        <p className="text-sm font-medium text-foreground">Average Performance</p>
-        <div className="flex items-center justify-between p-3 bg-background/30 rounded-lg">
+      <div className="space-y-2">
+        <p className="text-sm font-medium text-muted-foreground mb-3">Average Performance</p>
+        <div className="flex items-center justify-between py-2">
           <div className="flex items-center gap-2">
             <Heart className="w-4 h-4 text-rose-400" />
             <span className="text-sm text-muted-foreground">Avg Likes</span>
           </div>
           <span className="text-sm font-semibold text-foreground">{competitor.analytics.avgLikes}</span>
         </div>
-        <div className="flex items-center justify-between p-3 bg-background/30 rounded-lg">
+        <div className="flex items-center justify-between py-2">
           <div className="flex items-center gap-2">
             <MessageCircle className="w-4 h-4 text-blue-400" />
             <span className="text-sm text-muted-foreground">Avg Comments</span>
           </div>
           <span className="text-sm font-semibold text-foreground">{competitor.analytics.avgComments}</span>
         </div>
-        <div className="flex items-center justify-between p-3 bg-background/30 rounded-lg">
+        <div className="flex items-center justify-between py-2">
           <div className="flex items-center gap-2">
             <Share2 className="w-4 h-4 text-primary" />
             <span className="text-sm text-muted-foreground">Avg Shares</span>
