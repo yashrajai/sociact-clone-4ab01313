@@ -2,9 +2,9 @@ import {
   BarChart3, 
   Frame, 
   MessageCircleQuestion,
-  LogIn,
-  Brain
+  LogIn
 } from "lucide-react";
+import sociactLogo from "@/assets/sociact-logo.jpg";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import aiAvatarIcon from "@/assets/ai-avatar-icon.png";
@@ -88,8 +88,8 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
         className="flex items-center gap-2.5 px-4 py-5 cursor-pointer hover:opacity-80 transition-opacity"
         onClick={() => onItemClick("overview")}
       >
-        <div className="w-9 h-9 rounded-xl bg-primary/15 flex items-center justify-center">
-          <Brain className="w-5 h-5 text-primary" />
+        <div className="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center">
+          <img src={sociactLogo} alt="Sociact AI" className="w-full h-full object-cover" />
         </div>
         <span className="text-lg font-bold text-primary font-display tracking-tight">Sociact AI</span>
       </div>
