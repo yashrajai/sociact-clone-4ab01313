@@ -1,6 +1,5 @@
 import { 
   BarChart3, 
-  BotMessageSquare, 
   Wand2, 
   Clapperboard, 
   Frame, 
@@ -14,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import aiAvatarIcon from "@/assets/ai-avatar-icon.png";
 import commandCenterIcon from "@/assets/command-center-icon.png";
+import commentAutomationIcon from "@/assets/comment-automation-icon.png";
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -69,7 +69,7 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
       { id: "analytics", icon: <BarChart3 className="w-5 h-5" />, label: "Analytics" },
     ]},
     { section: "AI Tools", items: [
-      { id: "comment-automation", icon: <BotMessageSquare className="w-5 h-5" />, label: "Comment Automation" },
+      { id: "comment-automation", icon: <img src={commentAutomationIcon} alt="Comment Automation" className="w-5 h-5 invert brightness-0 invert opacity-70" />, label: "Comment Automation" },
       { id: "image-generation", icon: <Wand2 className="w-5 h-5" />, label: "Image Generation", badge: "NEW" },
       { id: "video-generation", icon: <Clapperboard className="w-5 h-5" />, label: "Video Generation", badge: "NEW" },
       { id: "thumbnail-generation", icon: <Frame className="w-5 h-5" />, label: "Thumbnail Generation" },
