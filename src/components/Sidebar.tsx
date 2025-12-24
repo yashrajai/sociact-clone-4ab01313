@@ -5,7 +5,6 @@ import {
   Wand2, 
   Clapperboard, 
   Frame, 
-  ScanFace, 
   SlidersHorizontal, 
   Crown, 
   MessageCircleQuestion,
@@ -14,7 +13,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-
+import aiAvatarIcon from "@/assets/ai-avatar-icon.png";
 interface NavItemProps {
   icon: React.ReactNode;
   label: string;
@@ -75,7 +74,7 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
       { id: "thumbnail-generation", icon: <Frame className="w-5 h-5" />, label: "Thumbnail Generation" },
     ]},
     { section: "Ad Creation", items: [
-      { id: "ai-avatar", icon: <ScanFace className="w-5 h-5" />, label: "AI Avatar" },
+      { id: "ai-avatar", icon: <img src={aiAvatarIcon} alt="AI Avatar" className="w-5 h-5" />, label: "AI Avatar" },
     ]},
     { section: "Account", items: [
       { id: "settings", icon: <SlidersHorizontal className="w-5 h-5" />, label: "Settings" },
