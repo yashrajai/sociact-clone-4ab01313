@@ -1,7 +1,6 @@
 import { 
   BarChart3, 
   Frame, 
-  Crown, 
   MessageCircleQuestion,
   LogIn,
   Brain
@@ -79,7 +78,6 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
     ]},
     { section: "Account", items: [
       { id: "settings", icon: <img src={settingsIcon} alt="Settings" className="w-5 h-5 invert brightness-0 invert opacity-70" />, label: "Settings" },
-      { id: "pricing", icon: <Crown className="w-5 h-5" />, label: "Pricing" },
     ]},
   ];
 
