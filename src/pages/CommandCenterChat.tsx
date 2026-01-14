@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { PromoBanner } from "@/components/PromoBanner";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 interface Message {
   role: "user" | "agent";
@@ -21,19 +24,42 @@ const ChatBubble = ({ variant, text }: { variant: "user" | "agent"; text: string
   </div>
 );
 
+const ThinkingIndicator = () => (
+  <div className="flex justify-start mb-4">
+    <div className="bg-secondary text-foreground px-4 py-3 rounded-2xl rounded-bl-md">
+      <div className="flex gap-1">
+        <span className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+        <span className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+        <span className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+      </div>
+    </div>
+  </div>
+);
+
 const CommandCenterChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState("");
+  const [isThinking, setIsThinking] = useState(false);
   const [activeItem, setActiveItem] = useState("command-center");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isThinking]);
 
   useEffect(() => {
     const prompt = localStorage.getItem("sociact_prompt");
 
     if (prompt) {
-      // Show user message
       setMessages([{ role: "user", content: prompt }]);
+      setIsThinking(true);
 
-      // Show agent response after delay
       setTimeout(() => {
+        setIsThinking(false);
         setMessages((prev) => [
           ...prev,
           { role: "agent", content: "Got it 👍 I'm working on this for you." },
@@ -42,22 +68,65 @@ const CommandCenterChat = () => {
     }
   }, []);
 
+  const handleSend = () => {
+    if (!inputValue.trim()) return;
+
+    const userMessage = inputValue.trim();
+    setInputValue("");
+    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+    setIsThinking(true);
+
+    setTimeout(() => {
+      setIsThinking(false);
+      setMessages((prev) => [
+        ...prev,
+        { role: "agent", content: "I understand! Let me help you with that. 🚀" },
+      ]);
+    }, 1500);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <PromoBanner />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar activeItem={activeItem} onItemClick={setActiveItem} />
         <div className="flex-1 flex flex-col overflow-hidden">
-          <main className="flex-1 overflow-y-auto p-6">
+          <main className="flex-1 overflow-y-auto p-6 pb-24">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-2xl font-bold mb-6">Command Center</h1>
               <div className="space-y-2">
                 {messages.map((msg, index) => (
                   <ChatBubble key={index} variant={msg.role} text={msg.content} />
                 ))}
+                {isThinking && <ThinkingIndicator />}
+                <div ref={messagesEndRef} />
               </div>
             </div>
           </main>
+          
+          {/* Chat Input Section */}
+          <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 md:left-64">
+            <div className="max-w-3xl mx-auto flex gap-2">
+              <Input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Type your message..."
+                className="flex-1"
+                disabled={isThinking}
+              />
+              <Button onClick={handleSend} disabled={isThinking || !inputValue.trim()}>
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
