@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Sidebar } from "@/components/Sidebar";
 import { PromoBanner } from "@/components/PromoBanner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-
 interface Message {
   role: "user" | "agent";
   content: string;
@@ -40,11 +40,19 @@ const ThinkingIndicator = () => (
 );
 
 const CommandCenterChat = () => {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isThinking, setIsThinking] = useState(false);
-  const [activeItem, setActiveItem] = useState("command-center");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const handleNavigation = (item: string) => {
+    if (item === "overview") {
+      navigate("/");
+    } else {
+      navigate(`/?view=${item}`);
+    }
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -99,7 +107,7 @@ const CommandCenterChat = () => {
     <div className="flex flex-col min-h-screen bg-background">
       <PromoBanner />
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar activeItem={activeItem} onItemClick={setActiveItem} />
+        <Sidebar activeItem="command-center" onItemClick={handleNavigation} />
         <div className="flex-1 flex flex-col overflow-hidden">
           <main className="flex-1 overflow-y-auto p-6 pb-24">
             <div className="max-w-3xl mx-auto">

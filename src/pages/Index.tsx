@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Sidebar } from "@/components/Sidebar";
 
 import { PromoBanner } from "@/components/PromoBanner";
@@ -9,11 +10,29 @@ import { ImageGeneration } from "@/components/image-generation/ImageGeneration";
 import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [activeItem, setActiveItem] = useState("overview");
   const { toast } = useToast();
 
+  useEffect(() => {
+    const view = searchParams.get("view");
+    if (view) {
+      setActiveItem(view);
+    } else {
+      setActiveItem("overview");
+    }
+  }, [searchParams]);
+
   const handleItemClick = (item: string) => {
-    setActiveItem(item);
+    if (item === "overview") {
+      navigate("/");
+      setActiveItem("overview");
+    } else {
+      navigate(`/?view=${item}`);
+      setActiveItem(item);
+    }
+    
     const formattedName = item.split('-').map(word => 
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
