@@ -24,11 +24,19 @@ const ChatBubble = ({ variant, text }: { variant: "user" | "agent"; text: string
   </div>
 );
 
-const ThinkingIndicator = () => (
+const thinkingStages = [
+  "Understanding your request...",
+  "Analyzing context...",
+  "Processing information...",
+  "Formulating response...",
+  "Almost there...",
+];
+
+const ThinkingIndicator = ({ stage }: { stage: number }) => (
   <div className="flex justify-start mb-4">
     <div className="bg-secondary text-foreground px-4 py-3 rounded-2xl rounded-bl-md">
       <div className="flex items-center gap-2">
-        <span className="text-muted-foreground text-sm">Thinking</span>
+        <span className="text-muted-foreground text-sm font-semibold">{thinkingStages[stage] || thinkingStages[0]}</span>
         <div className="flex gap-1">
           <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
           <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -44,6 +52,7 @@ const CommandCenterChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isThinking, setIsThinking] = useState(false);
+  const [thinkingStage, setThinkingStage] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleNavigation = (item: string) => {
@@ -60,7 +69,7 @@ const CommandCenterChat = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isThinking]);
+  }, [messages, isThinking, thinkingStage]);
 
   useEffect(() => {
     const prompt = localStorage.getItem("sociact_prompt");
@@ -68,14 +77,28 @@ const CommandCenterChat = () => {
     if (prompt) {
       setMessages([{ role: "user", content: prompt }]);
       setIsThinking(true);
+      setThinkingStage(0);
+
+      // Progress through thinking stages every 4 seconds (5 stages = 20 seconds total)
+      const stageInterval = setInterval(() => {
+        setThinkingStage((prev) => {
+          if (prev >= 4) {
+            clearInterval(stageInterval);
+            return prev;
+          }
+          return prev + 1;
+        });
+      }, 4000);
 
       setTimeout(() => {
+        clearInterval(stageInterval);
         setIsThinking(false);
+        setThinkingStage(0);
         setMessages((prev) => [
           ...prev,
           { role: "agent", content: "Got it 👍 I'm working on this for you." },
         ]);
-      }, 800);
+      }, 20000);
     }
   }, []);
 
@@ -86,14 +109,28 @@ const CommandCenterChat = () => {
     setInputValue("");
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setIsThinking(true);
+    setThinkingStage(0);
+
+    // Progress through thinking stages every 4 seconds (5 stages = 20 seconds total)
+    const stageInterval = setInterval(() => {
+      setThinkingStage((prev) => {
+        if (prev >= 4) {
+          clearInterval(stageInterval);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, 4000);
 
     setTimeout(() => {
+      clearInterval(stageInterval);
       setIsThinking(false);
+      setThinkingStage(0);
       setMessages((prev) => [
         ...prev,
         { role: "agent", content: "I understand! Let me help you with that. 🚀" },
       ]);
-    }, 1500);
+    }, 20000);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -116,7 +153,7 @@ const CommandCenterChat = () => {
                 {messages.map((msg, index) => (
                   <ChatBubble key={index} variant={msg.role} text={msg.content} />
                 ))}
-                {isThinking && <ThinkingIndicator />}
+                {isThinking && <ThinkingIndicator stage={thinkingStage} />}
                 <div ref={messagesEndRef} />
               </div>
             </div>
