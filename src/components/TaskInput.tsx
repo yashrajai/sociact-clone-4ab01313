@@ -1,5 +1,6 @@
 import { ArrowRight, Wand2, Film, LayoutTemplate, Sparkles, Paperclip } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
@@ -14,14 +15,12 @@ export const TaskInput = () => {
   const [task, setTask] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     if (task.trim()) {
-      toast({
-        title: "Task Submitted",
-        description: `Processing: "${task.slice(0, 50)}${task.length > 50 ? '...' : ''}"`,
-      });
-      setTask("");
+      localStorage.setItem("sociact_prompt", task);
+      navigate("/command-center/chat");
     } else {
       toast({
         title: "Empty Task",
