@@ -4,7 +4,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { PromoBanner } from "@/components/PromoBanner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Eye, Pencil, Plus, BarChart3 } from "lucide-react";
+import { ArrowRight, Eye, Pencil, Plus, BarChart3, MessageCircle, AtSign, Hash, Sparkles, Briefcase, HeartHandshake, Calendar, ShoppingCart, Check } from "lucide-react";
 
 interface Message {
   role: "user" | "agent";
@@ -200,6 +200,122 @@ const AutomationDetailsSection = ({
   );
 };
 
+// Option button configurations for each step
+const triggerOptions = [
+  { label: "Instagram DM", icon: MessageCircle, color: "from-pink-500 to-rose-500" },
+  { label: "Post Comments", icon: AtSign, color: "from-purple-500 to-indigo-500" },
+  { label: "Keyword Mention", icon: Hash, color: "from-blue-500 to-cyan-500" },
+  { label: "Story Reply", icon: Sparkles, color: "from-amber-500 to-orange-500" },
+];
+
+const toneOptions = [
+  { label: "Professional", icon: Briefcase, color: "from-slate-600 to-gray-700" },
+  { label: "Friendly", icon: HeartHandshake, color: "from-emerald-500 to-teal-500" },
+  { label: "Casual", icon: Sparkles, color: "from-violet-500 to-purple-500" },
+  { label: "Sales-focused", icon: ShoppingCart, color: "from-orange-500 to-red-500" },
+];
+
+const goalOptions = [
+  { label: "Lead Capture", icon: Sparkles, color: "from-blue-500 to-indigo-500" },
+  { label: "Customer Support", icon: HeartHandshake, color: "from-green-500 to-emerald-500" },
+  { label: "Bookings", icon: Calendar, color: "from-purple-500 to-pink-500" },
+  { label: "Sales", icon: ShoppingCart, color: "from-amber-500 to-orange-500" },
+];
+
+const businessOptions = [
+  { label: "E-commerce", icon: ShoppingCart, color: "from-blue-500 to-cyan-500" },
+  { label: "Real Estate", icon: Briefcase, color: "from-emerald-500 to-teal-500" },
+  { label: "Agency", icon: Sparkles, color: "from-purple-500 to-indigo-500" },
+  { label: "Service Business", icon: HeartHandshake, color: "from-rose-500 to-pink-500" },
+];
+
+interface OptionButtonProps {
+  label: string;
+  icon: React.ElementType;
+  color: string;
+  onClick: () => void;
+  delay: number;
+  selected?: boolean;
+}
+
+const OptionButton = ({ label, icon: Icon, color, onClick, delay, selected }: OptionButtonProps) => (
+  <button
+    onClick={onClick}
+    className={`
+      group relative overflow-hidden rounded-xl p-4 
+      bg-secondary/50 border border-border
+      hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10
+      transition-all duration-300 ease-out
+      animate-fade-in
+      ${selected ? 'ring-2 ring-primary border-primary' : ''}
+    `}
+    style={{ 
+      animationDelay: `${delay}ms`,
+      animationFillMode: 'backwards'
+    }}
+  >
+    {/* Gradient overlay on hover */}
+    <div className={`
+      absolute inset-0 bg-gradient-to-br ${color} opacity-0 
+      group-hover:opacity-10 transition-opacity duration-300
+    `} />
+    
+    {/* Shine effect */}
+    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+    </div>
+    
+    <div className="relative flex items-center gap-3">
+      <div className={`
+        p-2 rounded-lg bg-gradient-to-br ${color} 
+        transform group-hover:scale-110 group-hover:rotate-3
+        transition-transform duration-300 ease-out
+      `}>
+        <Icon className="h-5 w-5 text-white" />
+      </div>
+      <span className="font-medium text-sm group-hover:text-primary transition-colors duration-200">
+        {label}
+      </span>
+      {selected && (
+        <Check className="h-4 w-4 text-primary ml-auto animate-scale-in" />
+      )}
+    </div>
+    
+    {/* Bottom highlight */}
+    <div className={`
+      absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${color}
+      transform scale-x-0 group-hover:scale-x-100
+      transition-transform duration-300 origin-left
+    `} />
+  </button>
+);
+
+interface OptionSelectorProps {
+  options: Array<{ label: string; icon: React.ElementType; color: string }>;
+  onSelect: (label: string) => void;
+  selectedOption?: string;
+}
+
+const OptionSelector = ({ options, onSelect, selectedOption }: OptionSelectorProps) => (
+  <div className="flex justify-start mb-4 animate-fade-in">
+    <div className="max-w-[90%] w-full">
+      <div className="grid grid-cols-2 gap-3">
+        {options.map((option, index) => (
+          <OptionButton
+            key={option.label}
+            label={option.label}
+            icon={option.icon}
+            color={option.color}
+            onClick={() => onSelect(option.label)}
+            delay={index * 100}
+            selected={selectedOption === option.label}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
 const thinkingStages = [
   "Understanding your request...",
   "Analyzing context...",
@@ -248,6 +364,7 @@ const CommandCenterChat = () => {
   const [isFirstPrompt, setIsFirstPrompt] = useState(true);
   const [showSummary, setShowSummary] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
+  const [showOptions, setShowOptions] = useState<"trigger" | "tone" | "goal" | "business" | null>(null);
   const [collectedData, setCollectedData] = useState({
     trigger: "",
     tone: "",
@@ -270,7 +387,28 @@ const CommandCenterChat = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isThinking, thinkingStage, showSummary, showCTA]);
+  }, [messages, isThinking, thinkingStage, showSummary, showCTA, showOptions]);
+
+  const handleOptionSelect = (field: "trigger" | "tone" | "goal" | "business", value: string) => {
+    setCollectedData(prev => ({ ...prev, [field]: value }));
+    setMessages((prev) => [...prev, { role: "user", content: value, type: "text" }]);
+    setShowOptions(null);
+    
+    setTimeout(() => {
+      if (field === "trigger") {
+        addAgentMessage("Got it 👍");
+        setConversationStep("ask_tone");
+      } else if (field === "tone") {
+        addAgentMessage("Perfect, noted.");
+        setConversationStep("ask_goal");
+      } else if (field === "goal") {
+        addAgentMessage("Understood 👍");
+        setConversationStep("ask_business");
+      } else if (field === "business") {
+        setConversationStep("setting_up");
+      }
+    }, 400);
+  };
 
   const addAgentMessage = (content: string) => {
     setMessages((prev) => [...prev, { role: "agent", content, type: "text" }]);
@@ -289,29 +427,41 @@ const CommandCenterChat = () => {
 
       case "ask_trigger":
         setTimeout(() => {
-          addAgentMessage("Step 1 of 4\nWhen should this automation run?\n(For example: when someone sends a DM, comments on a post, or uses a keyword)");
-          setConversationStep("wait_trigger");
+          addAgentMessage("Step 1 of 4\nWhen should this automation run?");
+          setTimeout(() => {
+            setShowOptions("trigger");
+            setConversationStep("wait_trigger");
+          }, 500);
         }, 1000);
         break;
 
       case "ask_tone":
         setTimeout(() => {
-          addAgentMessage("Step 2 of 4\nWhat tone should the replies have?\n(Professional, friendly, casual, sales-focused, etc.)");
-          setConversationStep("wait_tone");
+          addAgentMessage("Step 2 of 4\nWhat tone should the replies have?");
+          setTimeout(() => {
+            setShowOptions("tone");
+            setConversationStep("wait_tone");
+          }, 500);
         }, 1000);
         break;
 
       case "ask_goal":
         setTimeout(() => {
-          addAgentMessage("Step 3 of 4\nWhat is the main goal of this automation?\n(Lead capture, customer support, bookings, sales, etc.)");
-          setConversationStep("wait_goal");
+          addAgentMessage("Step 3 of 4\nWhat is the main goal of this automation?");
+          setTimeout(() => {
+            setShowOptions("goal");
+            setConversationStep("wait_goal");
+          }, 500);
         }, 1000);
         break;
 
       case "ask_business":
         setTimeout(() => {
-          addAgentMessage("Step 4 of 4\nTell me a bit about your business so I can tailor the replies.");
-          setConversationStep("wait_business");
+          addAgentMessage("Step 4 of 4\nWhat type of business are you running?");
+          setTimeout(() => {
+            setShowOptions("business");
+            setConversationStep("wait_business");
+          }, 500);
         }, 1000);
         break;
 
@@ -500,6 +650,37 @@ const CommandCenterChat = () => {
                   <ChatBubble key={index} variant={msg.role} text={msg.content} />
                 ))}
                 {isThinking && <ThinkingIndicator stage={thinkingStage} />}
+                
+                {/* Option Buttons */}
+                {showOptions === "trigger" && (
+                  <OptionSelector 
+                    options={triggerOptions} 
+                    onSelect={(value) => handleOptionSelect("trigger", value)}
+                    selectedOption={collectedData.trigger}
+                  />
+                )}
+                {showOptions === "tone" && (
+                  <OptionSelector 
+                    options={toneOptions} 
+                    onSelect={(value) => handleOptionSelect("tone", value)}
+                    selectedOption={collectedData.tone}
+                  />
+                )}
+                {showOptions === "goal" && (
+                  <OptionSelector 
+                    options={goalOptions} 
+                    onSelect={(value) => handleOptionSelect("goal", value)}
+                    selectedOption={collectedData.goal}
+                  />
+                )}
+                {showOptions === "business" && (
+                  <OptionSelector 
+                    options={businessOptions} 
+                    onSelect={(value) => handleOptionSelect("business", value)}
+                    selectedOption={collectedData.business}
+                  />
+                )}
+                
                 {showSummary && <SummaryCard data={collectedData} />}
                 {showCTA && <CTASection onNavigate={handleNavigation} />}
                 <div ref={messagesEndRef} />
