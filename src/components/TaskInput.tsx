@@ -9,7 +9,7 @@ const quickActions = [
   { id: "video", icon: <Film className="w-4 h-4" />, label: "Make Video", prompt: "Create a short video about " },
   { id: "thumbnail", icon: <LayoutTemplate className="w-4 h-4" />, label: "Design Thumbnail", prompt: "Design a YouTube thumbnail for " },
   { id: "avatar", icon: <Sparkles className="w-4 h-4" />, label: "AI Avatar", prompt: "Create an AI avatar that " },
-  { id: "automation", icon: <MessageSquare className="w-4 h-4" />, label: "Social Automation", prompt: "Set up an automation to reply to " },
+  { id: "automation", icon: <MessageSquare className="w-4 h-4" />, label: "Social Automation", prompt: "Set up an automation for my social media" },
 ];
 
 export const TaskInput = () => {
