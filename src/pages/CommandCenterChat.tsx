@@ -105,6 +105,101 @@ const CTASection = ({ onNavigate }: { onNavigate: (path: string) => void }) => (
   </div>
 );
 
+const AutomationDetailsSection = ({ 
+  data, 
+  onEdit 
+}: { 
+  data: { trigger: string; tone: string; goal: string; business: string };
+  onEdit: (field: string, value: string) => void;
+}) => {
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState("");
+
+  const handleEditClick = (field: string, currentValue: string) => {
+    setEditingField(field);
+    setEditValue(currentValue);
+  };
+
+  const handleSave = () => {
+    if (editingField) {
+      onEdit(editingField, editValue);
+      setEditingField(null);
+      setEditValue("");
+    }
+  };
+
+  const handleCancel = () => {
+    setEditingField(null);
+    setEditValue("");
+  };
+
+  const fields = [
+    { key: "trigger", label: "Trigger", icon: "🎯" },
+    { key: "tone", label: "Tone", icon: "🎨" },
+    { key: "goal", label: "Goal", icon: "🎪" },
+    { key: "business", label: "Business Type", icon: "🏢" },
+  ];
+
+  return (
+    <div className="mt-8 border border-border rounded-xl bg-card p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold flex items-center gap-2">
+          <span className="text-xl">⚙️</span>
+          Your Automation
+        </h2>
+        <span className="text-xs bg-emerald-500/20 text-emerald-500 px-2 py-1 rounded-full font-medium">
+          Active
+        </span>
+      </div>
+      
+      <div className="grid gap-3">
+        {fields.map(({ key, label, icon }) => (
+          <div 
+            key={key}
+            className="flex items-center justify-between p-3 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors"
+          >
+            <div className="flex items-center gap-3 flex-1">
+              <span className="text-lg">{icon}</span>
+              <div className="flex-1">
+                <p className="text-xs text-muted-foreground mb-0.5">{label}</p>
+                {editingField === key ? (
+                  <Input
+                    value={editValue}
+                    onChange={(e) => setEditValue(e.target.value)}
+                    className="h-8 text-sm"
+                    autoFocus
+                  />
+                ) : (
+                  <p className="text-sm font-medium">{data[key as keyof typeof data] || "Not set"}</p>
+                )}
+              </div>
+            </div>
+            {editingField === key ? (
+              <div className="flex gap-1 ml-2">
+                <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={handleSave}>
+                  Save
+                </Button>
+                <Button size="sm" variant="ghost" className="h-7 px-2 text-xs text-muted-foreground" onClick={handleCancel}>
+                  Cancel
+                </Button>
+              </div>
+            ) : (
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="h-7 w-7 p-0"
+                onClick={() => handleEditClick(key, data[key as keyof typeof data])}
+              >
+                <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
+              </Button>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const thinkingStages = [
   "Understanding your request...",
   "Analyzing context...",
@@ -409,6 +504,16 @@ const CommandCenterChat = () => {
                 {showCTA && <CTASection onNavigate={handleNavigation} />}
                 <div ref={messagesEndRef} />
               </div>
+              
+              {/* Automation Details Section - shown after automation is complete */}
+              {showCTA && (
+                <AutomationDetailsSection 
+                  data={collectedData} 
+                  onEdit={(field, value) => {
+                    setCollectedData(prev => ({ ...prev, [field]: value }));
+                  }}
+                />
+              )}
             </div>
           </main>
           
