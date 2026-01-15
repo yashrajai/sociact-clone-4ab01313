@@ -4,7 +4,8 @@ import { Sidebar } from "@/components/Sidebar";
 import { PromoBanner } from "@/components/PromoBanner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Eye, Pencil, Plus, BarChart3, MessageCircle, AtSign, Hash, Sparkles, Briefcase, HeartHandshake, Calendar, ShoppingCart, Check, MoreHorizontal } from "lucide-react";
+import { ArrowRight, Eye, Pencil, Plus, BarChart3, MessageCircle, AtSign, Hash, Sparkles, Briefcase, HeartHandshake, Calendar, ShoppingCart, Check, MoreHorizontal, Wand2, Film, LayoutTemplate, Camera, Palette, Gamepad2, BookOpen, Mountain, User, ShoppingBag, Play, Music, Megaphone, Image, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Message {
   role: "user" | "agent";
@@ -17,6 +18,8 @@ interface Message {
     business: string;
   };
 }
+
+type FlowType = "automation" | "image" | "video" | "thumbnail" | null;
 
 const ChatBubble = ({ variant, text }: { variant: "user" | "agent"; text: string }) => (
   <div className={`flex ${variant === "user" ? "justify-end" : "justify-start"} mb-4`}>
@@ -52,6 +55,28 @@ const SummaryCard = ({ data }: { data: { trigger: string; tone: string; goal: st
         <div className="flex items-start gap-2">
           <span className="text-muted-foreground">•</span>
           <span><span className="font-medium">Business Type:</span> {data.business}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const GenerationSummaryCard = ({ data }: { data: { style: string; subject: string; type: string } }) => (
+  <div className="flex justify-start mb-4">
+    <div className="max-w-[80%] bg-secondary text-foreground px-5 py-4 rounded-2xl rounded-bl-md">
+      <p className="font-semibold mb-3">Here's what I'm generating for you 👇</p>
+      <div className="space-y-2 text-sm">
+        <div className="flex items-start gap-2">
+          <span className="text-muted-foreground">•</span>
+          <span><span className="font-medium">Type:</span> {data.type}</span>
+        </div>
+        <div className="flex items-start gap-2">
+          <span className="text-muted-foreground">•</span>
+          <span><span className="font-medium">Style:</span> {data.style}</span>
+        </div>
+        <div className="flex items-start gap-2">
+          <span className="text-muted-foreground">•</span>
+          <span><span className="font-medium">Subject:</span> {data.subject}</span>
         </div>
       </div>
     </div>
@@ -99,6 +124,44 @@ const CTASection = ({ onNavigate }: { onNavigate: (path: string) => void }) => (
         >
           <BarChart3 className="h-3 w-3 mr-1" />
           View analytics
+        </Button>
+      </div>
+    </div>
+  </div>
+);
+
+const GenerationCTASection = ({ type, onReset }: { type: string; onReset: () => void }) => (
+  <div className="flex justify-start mb-4">
+    <div className="max-w-[80%] space-y-4">
+      <div className="bg-emerald-500/10 border border-emerald-500/30 text-foreground px-5 py-4 rounded-2xl rounded-bl-md">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+            <Check className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <p className="font-semibold">Your {type} is ready! 🎉</p>
+            <p className="text-sm text-muted-foreground">Generation complete</p>
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex flex-wrap gap-2">
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="text-xs"
+          onClick={onReset}
+        >
+          <Plus className="h-3 w-3 mr-1" />
+          Create another {type}
+        </Button>
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="text-xs"
+        >
+          <Eye className="h-3 w-3 mr-1" />
+          View in gallery
         </Button>
       </div>
     </div>
@@ -200,7 +263,7 @@ const AutomationDetailsSection = ({
   );
 };
 
-// Option button configurations for each step
+// Option button configurations for automation
 const triggerOptions = [
   { label: "Instagram DM", icon: MessageCircle, color: "from-pink-500 to-rose-500" },
   { label: "Post Comments", icon: AtSign, color: "from-purple-500 to-indigo-500" },
@@ -230,6 +293,57 @@ const businessOptions = [
   { label: "Real Estate", icon: Briefcase, color: "from-emerald-500 to-teal-500" },
   { label: "Agency", icon: Sparkles, color: "from-purple-500 to-indigo-500" },
   { label: "Service Business", icon: HeartHandshake, color: "from-rose-500 to-pink-500" },
+  { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
+];
+
+// Option button configurations for image generation
+const imageStyleOptions = [
+  { label: "Photorealistic", icon: Camera, color: "from-blue-500 to-cyan-500" },
+  { label: "Digital Art", icon: Palette, color: "from-purple-500 to-pink-500" },
+  { label: "3D Render", icon: Gamepad2, color: "from-orange-500 to-red-500" },
+  { label: "Illustration", icon: BookOpen, color: "from-emerald-500 to-teal-500" },
+  { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
+];
+
+const imageSubjectOptions = [
+  { label: "Nature & Landscapes", icon: Mountain, color: "from-green-500 to-emerald-500" },
+  { label: "People & Portraits", icon: User, color: "from-rose-500 to-pink-500" },
+  { label: "Products", icon: ShoppingBag, color: "from-amber-500 to-orange-500" },
+  { label: "Abstract", icon: Sparkles, color: "from-violet-500 to-purple-500" },
+  { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
+];
+
+// Option button configurations for video generation
+const videoStyleOptions = [
+  { label: "Cinematic", icon: Film, color: "from-amber-500 to-orange-500" },
+  { label: "Animation", icon: Play, color: "from-pink-500 to-rose-500" },
+  { label: "Documentary", icon: Camera, color: "from-slate-600 to-gray-700" },
+  { label: "Social Media", icon: Megaphone, color: "from-blue-500 to-indigo-500" },
+  { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
+];
+
+const videoContentOptions = [
+  { label: "Product Demo", icon: ShoppingBag, color: "from-emerald-500 to-teal-500" },
+  { label: "Tutorial", icon: BookOpen, color: "from-blue-500 to-cyan-500" },
+  { label: "Story/Narrative", icon: Sparkles, color: "from-purple-500 to-pink-500" },
+  { label: "Music Video", icon: Music, color: "from-rose-500 to-red-500" },
+  { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
+];
+
+// Option button configurations for thumbnail generation
+const thumbnailStyleOptions = [
+  { label: "Bold & Vibrant", icon: Palette, color: "from-red-500 to-orange-500" },
+  { label: "Clean & Minimal", icon: Image, color: "from-slate-500 to-gray-600" },
+  { label: "Gaming Style", icon: Gamepad2, color: "from-purple-500 to-indigo-500" },
+  { label: "Professional", icon: BookOpen, color: "from-blue-500 to-cyan-500" },
+  { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
+];
+
+const thumbnailContentOptions = [
+  { label: "Face + Text", icon: User, color: "from-pink-500 to-rose-500" },
+  { label: "Product Focus", icon: ShoppingBag, color: "from-emerald-500 to-teal-500" },
+  { label: "Before/After", icon: Sparkles, color: "from-amber-500 to-orange-500" },
+  { label: "Listicle/Numbers", icon: BookOpen, color: "from-violet-500 to-purple-500" },
   { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
 ];
 
@@ -356,7 +470,113 @@ type ConversationStep =
   | "wait_business"
   | "setting_up"
   | "show_summary"
-  | "complete";
+  | "complete"
+  // Generation flow steps
+  | "gen_ask_style"
+  | "gen_wait_style"
+  | "gen_ask_subject"
+  | "gen_wait_subject"
+  | "gen_generating"
+  | "gen_complete";
+
+const generationThinkingStages = [
+  "Analyzing your preferences...",
+  "Crafting the perfect composition...",
+  "Adding finishing touches...",
+  "Almost ready...",
+];
+
+const GenerationThinkingIndicator = ({ stage, type }: { stage: number; type: string }) => (
+  <div className="flex justify-start mb-4">
+    <div className="bg-secondary text-foreground px-4 py-3 rounded-2xl rounded-bl-md">
+      <div className="flex items-center gap-2">
+        <span className="text-muted-foreground text-sm font-semibold">
+          {generationThinkingStages[stage] || generationThinkingStages[0]}
+        </span>
+        <div className="flex gap-1">
+          <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+          <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+          <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// Flow header component for generation flows
+const FlowHeader = ({ 
+  flowType, 
+  step, 
+  onClose 
+}: { 
+  flowType: FlowType; 
+  step: ConversationStep;
+  onClose: () => void;
+}) => {
+  const getIcon = () => {
+    switch (flowType) {
+      case "image": return <Wand2 className="w-4 h-4 text-white" />;
+      case "video": return <Film className="w-4 h-4 text-white" />;
+      case "thumbnail": return <LayoutTemplate className="w-4 h-4 text-white" />;
+      default: return null;
+    }
+  };
+
+  const getTitle = () => {
+    switch (flowType) {
+      case "image": return "Create Image";
+      case "video": return "Make Video";
+      case "thumbnail": return "Design Thumbnail";
+      default: return "";
+    }
+  };
+
+  const getProgress = () => {
+    if (step === "gen_ask_style" || step === "gen_wait_style") return 1;
+    if (step === "gen_ask_subject" || step === "gen_wait_subject") return 2;
+    if (step === "gen_generating" || step === "gen_complete") return 3;
+    return 0;
+  };
+
+  if (!flowType || flowType === "automation") return null;
+
+  const progress = getProgress();
+
+  return (
+    <div className="bg-card/50 backdrop-blur-sm rounded-2xl border border-border p-4 mb-4 animate-fade-in">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-purple-500">
+            {getIcon()}
+          </div>
+          <span className="font-semibold text-foreground">{getTitle()}</span>
+        </div>
+        <button 
+          onClick={onClose}
+          className="p-2 rounded-lg hover:bg-secondary transition-colors"
+        >
+          <X className="w-4 h-4 text-muted-foreground" />
+        </button>
+      </div>
+      
+      {/* Progress indicator */}
+      <div className="flex items-center gap-2">
+        <div className={cn(
+          "h-1 flex-1 rounded-full transition-all duration-500",
+          progress >= 1 ? "bg-primary" : "bg-secondary"
+        )} />
+        <div className={cn(
+          "h-1 flex-1 rounded-full transition-all duration-500",
+          progress >= 2 ? "bg-primary" : "bg-secondary"
+        )} />
+        <div className={cn(
+          "h-1 flex-1 rounded-full transition-all duration-500",
+          progress >= 3 ? "bg-primary" : "bg-secondary"
+        )} />
+      </div>
+    </div>
+  );
+};
 
 const CommandCenterChat = () => {
   const navigate = useNavigate();
@@ -368,13 +588,20 @@ const CommandCenterChat = () => {
   const [isFirstPrompt, setIsFirstPrompt] = useState(true);
   const [showSummary, setShowSummary] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
-  const [showOptions, setShowOptions] = useState<"trigger" | "tone" | "goal" | "business" | null>(null);
+  const [showGenerationCTA, setShowGenerationCTA] = useState(false);
+  const [showOptions, setShowOptions] = useState<"trigger" | "tone" | "goal" | "business" | "gen_style" | "gen_subject" | null>(null);
   const [collectedData, setCollectedData] = useState({
     trigger: "",
     tone: "",
     goal: "",
     business: "",
   });
+  const [generationData, setGenerationData] = useState({
+    style: "",
+    subject: "",
+    type: "",
+  });
+  const [activeFlowType, setActiveFlowType] = useState<FlowType>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleNavigation = (item: string) => {
@@ -391,7 +618,7 @@ const CommandCenterChat = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isThinking, thinkingStage, showSummary, showCTA, showOptions]);
+  }, [messages, isThinking, thinkingStage, showSummary, showCTA, showOptions, showGenerationCTA]);
 
   const handleOptionSelect = (field: "trigger" | "tone" | "goal" | "business", value: string) => {
     setCollectedData(prev => ({ ...prev, [field]: value }));
@@ -414,8 +641,60 @@ const CommandCenterChat = () => {
     }, 400);
   };
 
+  const handleGenerationOptionSelect = (field: "style" | "subject", value: string) => {
+    setGenerationData(prev => ({ ...prev, [field]: value }));
+    setMessages((prev) => [...prev, { role: "user", content: value, type: "text" }]);
+    setShowOptions(null);
+    
+    setTimeout(() => {
+      if (field === "style") {
+        addAgentMessage("Great choice! 👍");
+        setConversationStep("gen_ask_subject");
+      } else if (field === "subject") {
+        setConversationStep("gen_generating");
+      }
+    }, 400);
+  };
+
   const addAgentMessage = (content: string) => {
     setMessages((prev) => [...prev, { role: "agent", content, type: "text" }]);
+  };
+
+  const getStyleOptions = () => {
+    switch (activeFlowType) {
+      case "image": return imageStyleOptions;
+      case "video": return videoStyleOptions;
+      case "thumbnail": return thumbnailStyleOptions;
+      default: return [];
+    }
+  };
+
+  const getSubjectOptions = () => {
+    switch (activeFlowType) {
+      case "image": return imageSubjectOptions;
+      case "video": return videoContentOptions;
+      case "thumbnail": return thumbnailContentOptions;
+      default: return [];
+    }
+  };
+
+  const getFlowTypeName = () => {
+    switch (activeFlowType) {
+      case "image": return "Image";
+      case "video": return "Video";
+      case "thumbnail": return "Thumbnail";
+      default: return "";
+    }
+  };
+
+  const resetGenerationFlow = () => {
+    setActiveFlowType(null);
+    setConversationStep("initial");
+    setMessages([]);
+    setGenerationData({ style: "", subject: "", type: "" });
+    setShowGenerationCTA(false);
+    setShowOptions(null);
+    navigate("/");
   };
 
   const runConversationFlow = (step: ConversationStep) => {
@@ -510,6 +789,67 @@ const CommandCenterChat = () => {
           }, 1500);
         }, 1000);
         break;
+
+      // Generation flow steps
+      case "gen_ask_style":
+        setTimeout(() => {
+          const typeName = getFlowTypeName().toLowerCase();
+          addAgentMessage(`Step 1 of 2\nChoose ${typeName} style`);
+          setTimeout(() => {
+            setShowOptions("gen_style");
+            setConversationStep("gen_wait_style");
+          }, 500);
+        }, 1000);
+        break;
+
+      case "gen_ask_subject":
+        setTimeout(() => {
+          const questionText = activeFlowType === "video" 
+            ? "Step 2 of 2\nWhat type of content?" 
+            : activeFlowType === "thumbnail"
+            ? "Step 2 of 2\nWhat's the focus?"
+            : "Step 2 of 2\nWhat's the subject?";
+          addAgentMessage(questionText);
+          setTimeout(() => {
+            setShowOptions("gen_subject");
+            setConversationStep("gen_wait_subject");
+          }, 500);
+        }, 1000);
+        break;
+
+      case "gen_generating":
+        setTimeout(() => {
+          addAgentMessage("Perfect! I have everything I need. Let me generate this for you...");
+          setTimeout(() => {
+            setIsThinking(true);
+            setThinkingStage(0);
+            
+            const stageInterval = setInterval(() => {
+              setThinkingStage((prev) => {
+                if (prev >= 3) {
+                  clearInterval(stageInterval);
+                  return prev;
+                }
+                return prev + 1;
+              });
+            }, 1500);
+
+            setTimeout(() => {
+              clearInterval(stageInterval);
+              setIsThinking(false);
+              setThinkingStage(0);
+              addAgentMessage(`✅ Your ${getFlowTypeName().toLowerCase()} is ready!`);
+              setConversationStep("gen_complete");
+            }, 5000);
+          }, 1500);
+        }, 1000);
+        break;
+
+      case "gen_complete":
+        setTimeout(() => {
+          setShowGenerationCTA(true);
+        }, 500);
+        break;
     }
   };
 
@@ -520,15 +860,40 @@ const CommandCenterChat = () => {
         conversationStep === "ask_goal" || 
         conversationStep === "ask_business" ||
         conversationStep === "setting_up" ||
-        conversationStep === "show_summary") {
+        conversationStep === "show_summary" ||
+        conversationStep === "gen_ask_style" ||
+        conversationStep === "gen_ask_subject" ||
+        conversationStep === "gen_generating" ||
+        conversationStep === "gen_complete") {
       runConversationFlow(conversationStep);
     }
   }, [conversationStep]);
 
   useEffect(() => {
+    // Check for generation flow type first
+    const flowType = localStorage.getItem("sociact_flow_type") as FlowType;
+    
+    if (flowType && (flowType === "image" || flowType === "video" || flowType === "thumbnail")) {
+      setActiveFlowType(flowType);
+      setGenerationData(prev => ({ ...prev, type: flowType }));
+      
+      // Start the generation flow
+      const flowLabels = { image: "Create Image", video: "Make Video", thumbnail: "Design Thumbnail" };
+      setMessages([{ role: "agent", content: `Let's ${flowLabels[flowType].toLowerCase()}! 🎨`, type: "text" }]);
+      
+      setTimeout(() => {
+        setConversationStep("gen_ask_style");
+      }, 1000);
+      
+      localStorage.removeItem("sociact_flow_type");
+      return;
+    }
+
+    // Check for regular prompt
     const prompt = localStorage.getItem("sociact_prompt");
 
     if (prompt) {
+      setActiveFlowType("automation");
       setMessages([{ role: "user", content: prompt, type: "text" }]);
       setIsThinking(true);
       setThinkingStage(0);
@@ -567,7 +932,21 @@ const CommandCenterChat = () => {
     setInputValue("");
     setMessages((prev) => [...prev, { role: "user", content: userMessage, type: "text" }]);
 
-    // Handle based on current conversation step
+    // Handle generation flow text input
+    if (conversationStep === "gen_wait_style") {
+      setGenerationData(prev => ({ ...prev, style: userMessage }));
+      setTimeout(() => {
+        addAgentMessage("Great choice! 👍");
+        setConversationStep("gen_ask_subject");
+      }, 800);
+      return;
+    } else if (conversationStep === "gen_wait_subject") {
+      setGenerationData(prev => ({ ...prev, subject: userMessage }));
+      setConversationStep("gen_generating");
+      return;
+    }
+
+    // Handle automation flow text input
     if (conversationStep === "wait_trigger") {
       setCollectedData(prev => ({ ...prev, trigger: userMessage }));
       setTimeout(() => {
@@ -616,7 +995,7 @@ const CommandCenterChat = () => {
           setConversationStep("first_response");
         }, 1500);
       }, 20000);
-    } else if (conversationStep === "complete") {
+    } else if (conversationStep === "complete" || conversationStep === "gen_complete") {
       // After completion, simple responses
       setIsThinking(true);
       setThinkingStage(0);
@@ -637,8 +1016,12 @@ const CommandCenterChat = () => {
   };
 
   const isWaitingForInput = conversationStep.startsWith("wait_") || 
+                            conversationStep.startsWith("gen_wait_") ||
                             conversationStep === "initial" || 
-                            conversationStep === "complete";
+                            conversationStep === "complete" ||
+                            conversationStep === "gen_complete";
+
+  const isGenerationFlow = activeFlowType === "image" || activeFlowType === "video" || activeFlowType === "thumbnail";
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -649,13 +1032,27 @@ const CommandCenterChat = () => {
           <main className="flex-1 overflow-y-auto p-6 pb-24">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-2xl font-bold mb-6">Command Center</h1>
+              
+              {/* Flow Header for generation flows */}
+              {isGenerationFlow && (
+                <FlowHeader 
+                  flowType={activeFlowType} 
+                  step={conversationStep}
+                  onClose={resetGenerationFlow}
+                />
+              )}
+              
               <div className="space-y-2">
                 {messages.map((msg, index) => (
                   <ChatBubble key={index} variant={msg.role} text={msg.content} />
                 ))}
-                {isThinking && <ThinkingIndicator stage={thinkingStage} />}
+                {isThinking && (
+                  isGenerationFlow 
+                    ? <GenerationThinkingIndicator stage={thinkingStage} type={getFlowTypeName().toLowerCase()} />
+                    : <ThinkingIndicator stage={thinkingStage} />
+                )}
                 
-                {/* Option Buttons */}
+                {/* Automation Option Buttons */}
                 {showOptions === "trigger" && (
                   <OptionSelector 
                     options={triggerOptions} 
@@ -685,8 +1082,32 @@ const CommandCenterChat = () => {
                   />
                 )}
                 
+                {/* Generation Option Buttons */}
+                {showOptions === "gen_style" && (
+                  <OptionSelector 
+                    options={getStyleOptions()} 
+                    onSelect={(value) => handleGenerationOptionSelect("style", value)}
+                    selectedOption={generationData.style}
+                  />
+                )}
+                {showOptions === "gen_subject" && (
+                  <OptionSelector 
+                    options={getSubjectOptions()} 
+                    onSelect={(value) => handleGenerationOptionSelect("subject", value)}
+                    selectedOption={generationData.subject}
+                  />
+                )}
+                
                 {showSummary && <SummaryCard data={collectedData} />}
                 {showCTA && <CTASection onNavigate={handleNavigation} />}
+                
+                {showGenerationCTA && (
+                  <>
+                    <GenerationSummaryCard data={generationData} />
+                    <GenerationCTASection type={getFlowTypeName().toLowerCase()} onReset={resetGenerationFlow} />
+                  </>
+                )}
+                
                 <div ref={messagesEndRef} />
               </div>
               
