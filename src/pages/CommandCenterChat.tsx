@@ -4,23 +4,103 @@ import { Sidebar } from "@/components/Sidebar";
 import { PromoBanner } from "@/components/PromoBanner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Eye, Pencil, Plus, BarChart3 } from "lucide-react";
 
 interface Message {
   role: "user" | "agent";
   content: string;
+  type?: "text" | "summary" | "cta";
+  summaryData?: {
+    trigger: string;
+    tone: string;
+    goal: string;
+    business: string;
+  };
 }
 
 const ChatBubble = ({ variant, text }: { variant: "user" | "agent"; text: string }) => (
   <div className={`flex ${variant === "user" ? "justify-end" : "justify-start"} mb-4`}>
     <div
-      className={`max-w-[70%] px-4 py-3 rounded-2xl ${
+      className={`max-w-[70%] px-4 py-3 rounded-2xl whitespace-pre-line ${
         variant === "user"
           ? "bg-primary text-primary-foreground rounded-br-md"
           : "bg-secondary text-foreground rounded-bl-md"
       }`}
     >
       {text}
+    </div>
+  </div>
+);
+
+const SummaryCard = ({ data }: { data: { trigger: string; tone: string; goal: string; business: string } }) => (
+  <div className="flex justify-start mb-4">
+    <div className="max-w-[80%] bg-secondary text-foreground px-5 py-4 rounded-2xl rounded-bl-md">
+      <p className="font-semibold mb-3">Here's a quick summary of what I've set up 👇</p>
+      <div className="space-y-2 text-sm">
+        <div className="flex items-start gap-2">
+          <span className="text-muted-foreground">•</span>
+          <span><span className="font-medium">Trigger:</span> {data.trigger}</span>
+        </div>
+        <div className="flex items-start gap-2">
+          <span className="text-muted-foreground">•</span>
+          <span><span className="font-medium">Tone:</span> {data.tone}</span>
+        </div>
+        <div className="flex items-start gap-2">
+          <span className="text-muted-foreground">•</span>
+          <span><span className="font-medium">Goal:</span> {data.goal}</span>
+        </div>
+        <div className="flex items-start gap-2">
+          <span className="text-muted-foreground">•</span>
+          <span><span className="font-medium">Business Type:</span> {data.business}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const CTASection = ({ onNavigate }: { onNavigate: (path: string) => void }) => (
+  <div className="flex justify-start mb-4">
+    <div className="max-w-[80%] space-y-4">
+      <div className="bg-secondary text-foreground px-5 py-4 rounded-2xl rounded-bl-md">
+        <p className="mb-4">You can now manage or edit this automation anytime.</p>
+        <Button 
+          className="w-full bg-emerald-500 hover:bg-emerald-600 text-white"
+          onClick={() => onNavigate("comment-automation")}
+        >
+          <Eye className="h-4 w-4 mr-2" />
+          View in Automation Dashboard
+        </Button>
+      </div>
+      
+      <div className="flex flex-wrap gap-2">
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="text-xs"
+          onClick={() => onNavigate("comment-automation")}
+        >
+          <Pencil className="h-3 w-3 mr-1" />
+          Edit automation
+        </Button>
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="text-xs"
+          onClick={() => {}}
+        >
+          <Plus className="h-3 w-3 mr-1" />
+          Create another automation
+        </Button>
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="text-xs"
+          onClick={() => onNavigate("analytics")}
+        >
+          <BarChart3 className="h-3 w-3 mr-1" />
+          View analytics
+        </Button>
+      </div>
     </div>
   </div>
 );
@@ -60,6 +140,7 @@ type ConversationStep =
   | "ask_business"
   | "wait_business"
   | "setting_up"
+  | "show_summary"
   | "complete";
 
 const CommandCenterChat = () => {
@@ -70,6 +151,14 @@ const CommandCenterChat = () => {
   const [thinkingStage, setThinkingStage] = useState(0);
   const [conversationStep, setConversationStep] = useState<ConversationStep>("initial");
   const [isFirstPrompt, setIsFirstPrompt] = useState(true);
+  const [showSummary, setShowSummary] = useState(false);
+  const [showCTA, setShowCTA] = useState(false);
+  const [collectedData, setCollectedData] = useState({
+    trigger: "",
+    tone: "",
+    goal: "",
+    business: "",
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleNavigation = (item: string) => {
@@ -86,10 +175,10 @@ const CommandCenterChat = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isThinking, thinkingStage]);
+  }, [messages, isThinking, thinkingStage, showSummary, showCTA]);
 
   const addAgentMessage = (content: string) => {
-    setMessages((prev) => [...prev, { role: "agent", content }]);
+    setMessages((prev) => [...prev, { role: "agent", content, type: "text" }]);
   };
 
   const runConversationFlow = (step: ConversationStep) => {
@@ -156,9 +245,19 @@ const CommandCenterChat = () => {
               
               setTimeout(() => {
                 addAgentMessage("✅ Your automation is ready!");
-                setConversationStep("complete");
+                setConversationStep("show_summary");
               }, 2000);
             }, 6000);
+          }, 1500);
+        }, 1000);
+        break;
+
+      case "show_summary":
+        setTimeout(() => {
+          setShowSummary(true);
+          setTimeout(() => {
+            setShowCTA(true);
+            setConversationStep("complete");
           }, 1500);
         }, 1000);
         break;
@@ -171,7 +270,8 @@ const CommandCenterChat = () => {
         conversationStep === "ask_tone" || 
         conversationStep === "ask_goal" || 
         conversationStep === "ask_business" ||
-        conversationStep === "setting_up") {
+        conversationStep === "setting_up" ||
+        conversationStep === "show_summary") {
       runConversationFlow(conversationStep);
     }
   }, [conversationStep]);
@@ -180,7 +280,7 @@ const CommandCenterChat = () => {
     const prompt = localStorage.getItem("sociact_prompt");
 
     if (prompt) {
-      setMessages([{ role: "user", content: prompt }]);
+      setMessages([{ role: "user", content: prompt, type: "text" }]);
       setIsThinking(true);
       setThinkingStage(0);
       setIsFirstPrompt(true);
@@ -216,25 +316,29 @@ const CommandCenterChat = () => {
 
     const userMessage = inputValue.trim();
     setInputValue("");
-    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+    setMessages((prev) => [...prev, { role: "user", content: userMessage, type: "text" }]);
 
     // Handle based on current conversation step
     if (conversationStep === "wait_trigger") {
+      setCollectedData(prev => ({ ...prev, trigger: userMessage }));
       setTimeout(() => {
         addAgentMessage("Got it 👍");
         setConversationStep("ask_tone");
       }, 800);
     } else if (conversationStep === "wait_tone") {
+      setCollectedData(prev => ({ ...prev, tone: userMessage }));
       setTimeout(() => {
         addAgentMessage("Perfect, noted.");
         setConversationStep("ask_goal");
       }, 800);
     } else if (conversationStep === "wait_goal") {
+      setCollectedData(prev => ({ ...prev, goal: userMessage }));
       setTimeout(() => {
         addAgentMessage("Understood 👍");
         setConversationStep("ask_business");
       }, 800);
     } else if (conversationStep === "wait_business") {
+      setCollectedData(prev => ({ ...prev, business: userMessage }));
       setConversationStep("setting_up");
     } else if (isFirstPrompt || conversationStep === "initial") {
       // First message flow with 20 second thinking
@@ -301,6 +405,8 @@ const CommandCenterChat = () => {
                   <ChatBubble key={index} variant={msg.role} text={msg.content} />
                 ))}
                 {isThinking && <ThinkingIndicator stage={thinkingStage} />}
+                {showSummary && <SummaryCard data={collectedData} />}
+                {showCTA && <CTASection onNavigate={handleNavigation} />}
                 <div ref={messagesEndRef} />
               </div>
             </div>
