@@ -64,7 +64,7 @@ export const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
 
   const navItems = [
     { section: "Dashboard", items: [
-      { id: "overview", icon: <img src={commandCenterIcon} alt="Command Center" className="w-5 h-5 invert brightness-0 invert opacity-70" />, label: "Command Center" },
+      { id: "overview", icon: <img src={commandCenterIcon} alt="Overview" className="w-5 h-5 invert brightness-0 invert opacity-70" />, label: "Overview" },
       { id: "analytics", icon: <BarChart3 className="w-5 h-5" />, label: "Analytics" },
     ]},
     { section: "AI Tools", items: [
