@@ -4,7 +4,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { PromoBanner } from "@/components/PromoBanner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Eye, Pencil, Plus, BarChart3, MessageCircle, AtSign, Hash, Sparkles, Briefcase, HeartHandshake, Calendar, ShoppingCart, Check } from "lucide-react";
+import { ArrowRight, Eye, Pencil, Plus, BarChart3, MessageCircle, AtSign, Hash, Sparkles, Briefcase, HeartHandshake, Calendar, ShoppingCart, Check, MoreHorizontal } from "lucide-react";
 
 interface Message {
   role: "user" | "agent";
@@ -206,6 +206,7 @@ const triggerOptions = [
   { label: "Post Comments", icon: AtSign, color: "from-purple-500 to-indigo-500" },
   { label: "Keyword Mention", icon: Hash, color: "from-blue-500 to-cyan-500" },
   { label: "Story Reply", icon: Sparkles, color: "from-amber-500 to-orange-500" },
+  { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
 ];
 
 const toneOptions = [
@@ -213,6 +214,7 @@ const toneOptions = [
   { label: "Friendly", icon: HeartHandshake, color: "from-emerald-500 to-teal-500" },
   { label: "Casual", icon: Sparkles, color: "from-violet-500 to-purple-500" },
   { label: "Sales-focused", icon: ShoppingCart, color: "from-orange-500 to-red-500" },
+  { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
 ];
 
 const goalOptions = [
@@ -220,6 +222,7 @@ const goalOptions = [
   { label: "Customer Support", icon: HeartHandshake, color: "from-green-500 to-emerald-500" },
   { label: "Bookings", icon: Calendar, color: "from-purple-500 to-pink-500" },
   { label: "Sales", icon: ShoppingCart, color: "from-amber-500 to-orange-500" },
+  { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
 ];
 
 const businessOptions = [
@@ -227,6 +230,7 @@ const businessOptions = [
   { label: "Real Estate", icon: Briefcase, color: "from-emerald-500 to-teal-500" },
   { label: "Agency", icon: Sparkles, color: "from-purple-500 to-indigo-500" },
   { label: "Service Business", icon: HeartHandshake, color: "from-rose-500 to-pink-500" },
+  { label: "Something else", icon: MoreHorizontal, color: "from-gray-500 to-slate-600", isCustom: true },
 ];
 
 interface OptionButtonProps {
