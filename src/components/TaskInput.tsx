@@ -1,4 +1,4 @@
-import { ArrowRight, Wand2, Film, LayoutTemplate, Sparkles, Paperclip } from "lucide-react";
+import { ArrowRight, Wand2, Film, LayoutTemplate, Sparkles, Paperclip, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -9,6 +9,7 @@ const quickActions = [
   { id: "video", icon: <Film className="w-4 h-4" />, label: "Make Video", prompt: "Create a short video about " },
   { id: "thumbnail", icon: <LayoutTemplate className="w-4 h-4" />, label: "Design Thumbnail", prompt: "Design a YouTube thumbnail for " },
   { id: "avatar", icon: <Sparkles className="w-4 h-4" />, label: "AI Avatar", prompt: "Create an AI avatar that " },
+  { id: "automation", icon: <MessageSquare className="w-4 h-4" />, label: "Social Automation", prompt: "Set up an automation to reply to " },
 ];
 
 export const TaskInput = () => {
