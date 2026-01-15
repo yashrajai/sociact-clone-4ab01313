@@ -8,8 +8,8 @@ const quickActions = [
   { id: "image", icon: <Wand2 className="w-4 h-4" />, label: "Create Image", flowType: "image" },
   { id: "video", icon: <Film className="w-4 h-4" />, label: "Make Video", flowType: "video" },
   { id: "thumbnail", icon: <LayoutTemplate className="w-4 h-4" />, label: "Design Thumbnail", flowType: "thumbnail" },
-  { id: "avatar", icon: <Sparkles className="w-4 h-4" />, label: "AI Avatar", prompt: "Create an AI avatar that " },
-  { id: "automation", icon: <MessageSquare className="w-4 h-4" />, label: "Social Automation", prompt: "Set up an automation for my social media" },
+  { id: "avatar", icon: <Sparkles className="w-4 h-4" />, label: "AI Avatar", flowType: "avatar" },
+  { id: "automation", icon: <MessageSquare className="w-4 h-4" />, label: "Social Automation", flowType: "automation" },
 ];
 
 export const TaskInput = () => {
@@ -39,17 +39,10 @@ export const TaskInput = () => {
   };
 
   const handleQuickAction = (action: typeof quickActions[0]) => {
-    if (action.flowType) {
-      // For image/video/thumbnail - navigate to command center with flow type
-      localStorage.setItem("sociact_flow_type", action.flowType);
-      navigate("/command-center/chat");
-    } else if (action.prompt) {
-      setTask(action.prompt);
-      toast({
-        title: action.label,
-        description: "Quick action selected! Complete your prompt.",
-      });
-    }
+    // All quick actions navigate to command center with flow type
+    localStorage.setItem("sociact_flow_type", action.flowType);
+    localStorage.removeItem("sociact_prompt"); // Clear any existing prompt
+    navigate("/command-center/chat");
   };
 
   return (
